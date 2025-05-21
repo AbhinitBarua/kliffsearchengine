@@ -1,0 +1,546 @@
+:root {
+    --primary-color: #0d0d2b; /* Deep space blue */
+    --secondary-color: #1a1a3d;
+    --accent-color: #ff00ff; /* Magenta */
+    --glow-color: #00ffff; /* Cyan */
+    --text-color: #e0e0e0;
+    --text-muted-color: #a0a0a0;
+    --link-color: #9d72ff; /* Lavender */
+    --bg-image-dark: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+    --bg-image-light: radial-gradient(ellipse at bottom, #87CEEB 0%, #E0F2F7 100%); /* Light Sky Blue theme */
+
+    --font-primary: 'Orbitron', sans-serif;
+    --font-secondary: 'Share Tech Mono', monospace;
+
+    /* Absconding Variables */
+    --glitch-line-height: 10px;
+    --glitch-skew: 5deg;
+    --scanline-opacity: 0.05;
+    --flicker-speed: 1.5s;
+}
+
+html.light-mode {
+    --primary-color: #f0f8ff; /* Alice Blue */
+    --secondary-color: #e6e6fa; /* Lavender */
+    --accent-color: #ff69b4; /* Hot Pink */
+    --glow-color: #007bff; /* Bright Blue */
+    --text-color: #333;
+    --text-muted-color: #666;
+    --link-color: #8a2be2; /* Blue Violet */
+    --bg-image-dark: var(--bg-image-light); /* Use light bg for light mode */
+}
+
+
+body {
+    margin: 0;
+    font-family: var(--font-secondary);
+    color: var(--text-color);
+    background-color: var(--primary-color); /* Fallback */
+    overflow-x: hidden; /* Prevent horizontal scroll from animations */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.black-hole-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-image-dark);
+    z-index: -3;
+    transition: background 0.5s ease-in-out;
+}
+
+/* Starry background effect from https://codepen.io/saransh/pen/BKJun */
+@keyframes move-twink-back {
+    from {background-position:0 0;}
+    to {background-position:-10000px 5000px;}
+}
+.stars, .twinkling {
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  width:100%;
+  height:100%;
+  display:block;
+  z-index: -2;
+}
+.stars {
+  background:#000 url(https://www.script-tutorials.com/demos/360/images/stars.png) repeat top center;
+}
+.twinkling{
+  background:transparent url(https://www.script-tutorials.com/demos/360/images/twinkling.png) repeat top center;
+  animation:move-twink-back 200s linear infinite;
+}
+/* Hide stars in light mode */
+html.light-mode .stars, html.light-mode .twinkling {
+    display: none;
+}
+
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#home-container {
+    justify-content: center;
+}
+
+header {
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.results-header .glitch {
+    font-size: 2em; /* Smaller logo on results page */
+    margin-right: 20px;
+}
+
+.results-header #search-form-results {
+    flex-grow: 1;
+    max-width: 500px;
+    margin: 10px 0;
+}
+
+
+/* GLITCH EFFECT */
+.glitch {
+    font-family: var(--font-primary);
+    font-size: 5em;
+    font-weight: 700;
+    color: var(--text-color);
+    position: relative;
+    text-decoration: none;
+    display: inline-block; /* Important for before/after positioning */
+}
+
+.glitch::before,
+.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--primary-color); /* Match body bg */
+    overflow: hidden;
+    clip-path: inset(50% 0 50% 0); /* Default clip */
+}
+html.light-mode .glitch::before,
+html.light-mode .glitch::after {
+    background: var(--primary-color);
+}
+
+
+.glitch::before {
+    left: -2px;
+    text-shadow: -2px 0 var(--accent-color);
+    animation: glitch-anim-1 2s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+    left: 2px;
+    text-shadow: -2px 0 var(--glow-color), 2px 2px var(--accent-color);
+    animation: glitch-anim-2 3s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim-1 {
+    0% { clip-path: inset(calc(50% - var(--glitch-line-height)/2) 0 calc(50% - var(--glitch-line-height)/2) 0); transform: skew(var(--glitch-skew)); }
+    10% { clip-path: inset(10% 0 70% 0); transform: skew(calc(var(--glitch-skew) * -0.5));}
+    /* ... more steps for varied glitch */
+    100% { clip-path: inset(calc(30% - var(--glitch-line-height)/2) 0 calc(70% - var(--glitch-line-height)/2) 0); transform: skew(calc(var(--glitch-skew) * 0.8));}
+}
+@keyframes glitch-anim-2 {
+    0% { clip-path: inset(calc(60% - var(--glitch-line-height)/2) 0 calc(40% - var(--glitch-line-height)/2) 0); transform: skew(calc(var(--glitch-skew) * -1.2));}
+    /* ... more steps for varied glitch */
+    100% { clip-path: inset(calc(40% - var(--glitch-line-height)/2) 0 calc(60% - var(--glitch-line-height)/2) 0); transform: skew(var(--glitch-skew)); }
+}
+
+
+.tagline {
+    font-size: 1.2em;
+    color: var(--text-muted-color);
+    margin-top: -15px;
+    text-shadow: 0 0 5px var(--glow-color);
+    animation: text-flicker var(--flicker-speed) infinite alternate;
+}
+
+@keyframes text-flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        text-shadow:
+            0 0 4px var(--text-color),
+            0 0 10px var(--text-color),
+            0 0 20px var(--glow-color),
+            0 0 40px var(--glow-color),
+            0 0 80px var(--glow-color),
+            0 0 120px var(--glow-color);
+        opacity: 1;
+    }
+    20%, 24%, 55% { opacity: 0.6; text-shadow: none; }
+}
+
+
+/* Search Bar */
+.search-wrapper {
+    display: flex;
+    margin: 30px auto;
+    max-width: 600px;
+    border: 2px solid var(--accent-color);
+    border-radius: 50px; /* Pill shape */
+    overflow: hidden; /* Keep button inside */
+    box-shadow: 0 0 15px var(--accent-color), inset 0 0 10px var(--glow-color);
+    transition: box-shadow 0.3s ease;
+}
+.search-wrapper:focus-within {
+    box-shadow: 0 0 25px var(--glow-color), inset 0 0 15px var(--accent-color);
+}
+
+#search-bar, #search-bar-results {
+    flex-grow: 1;
+    padding: 15px 25px;
+    font-size: 1.1em;
+    font-family: var(--font-secondary);
+    border: none;
+    background: transparent;
+    color: var(--text-color);
+    outline: none;
+}
+#search-bar::placeholder, #search-bar-results::placeholder {
+    color: var(--text-muted-color);
+    opacity: 0.7;
+}
+
+.search-button {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+    border: none;
+    padding: 0 25px;
+    cursor: pointer;
+    font-size: 1.2em;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.search-button svg {
+    display: block; /* Fixes small gap under SVG */
+    width: 24px;
+    height: 24px;
+}
+html.light-mode .search-button {
+    color: white; /* Ensure contrast in light mode */
+}
+
+.search-button:hover {
+    background-color: var(--glow-color);
+    transform: scale(1.1);
+}
+.search-button:active {
+    transform: scale(0.95);
+}
+
+/* Suggestions Box */
+#suggestions-box {
+    background-color: rgba(26, 26, 61, 0.9); /* var(--secondary-color) with alpha */
+    border: 1px solid var(--accent-color);
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    margin: -31px auto 0; /* Overlap slightly */
+    max-width: calc(600px - 4px); /* Match search bar width minus borders */
+    text-align: left;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    max-height: 200px;
+    overflow-y: auto;
+    position: relative; /* For z-index if needed */
+    z-index: 10;
+}
+html.light-mode #suggestions-box {
+    background-color: rgba(230, 230, 250, 0.95); /* Light mode suggestion bg */
+    border-color: var(--accent-color);
+}
+
+#suggestions-box div {
+    padding: 12px 20px;
+    cursor: pointer;
+    color: var(--text-color);
+    transition: background-color 0.2s ease;
+    border-bottom: 1px dashed rgba(157, 114, 255, 0.2); /* var(--link-color) with alpha */
+}
+#suggestions-box div:last-child {
+    border-bottom: none;
+}
+#suggestions-box div:hover, #suggestions-box div.selected {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+}
+html.light-mode #suggestions-box div:hover, html.light-mode #suggestions-box div.selected {
+    color: white;
+}
+
+
+/* Scanline Overlay */
+body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0,0,0, var(--scanline-opacity)),
+        rgba(0,0,0, var(--scanline-opacity)) 1px,
+        transparent 1px,
+        transparent 3px
+    );
+    z-index: 0;
+    pointer-events: none; /* Allow clicks through */
+    animation: scanline-flicker 0.1s infinite alternate;
+}
+html.light-mode body::after {
+    display: none; /* No scanlines in light mode */
+}
+
+@keyframes scanline-flicker {
+    from { opacity: 0.8; }
+    to { opacity: 1; }
+}
+
+/* Results Page Specifics */
+#results-container {
+    text-align: left;
+    padding-top: 20px;
+}
+
+#search-query-display {
+    margin-bottom: 20px;
+    font-size: 1.1em;
+    color: var(--text-muted-color);
+}
+#search-query-display #query-term {
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+#search-results-list .result-item {
+    background-color: rgba(26, 26, 61, 0.5); /* var(--secondary-color) with some transparency */
+    border: 1px solid var(--glow-color);
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.2); /* var(--glow-color) subtle shadow */
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+    position: relative; /* For ::before pseudo-element */
+    overflow: hidden; /* For pseudo-element */
+}
+html.light-mode #search-results-list .result-item {
+    background-color: rgba(230, 230, 250, 0.8);
+    border-color: var(--glow-color);
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.2);
+}
+
+
+#search-results-list .result-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0,255,255,0.2), transparent); /* var(--glow-color) */
+    transition: left 0.5s ease-out;
+}
+#search-results-list .result-item:hover::before {
+    left: 150%; /* Make it sweep across */
+}
+
+
+#search-results-list .result-item:hover {
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: 0 5px 20px rgba(0, 255, 255, 0.4);
+}
+
+.result-item h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+.result-item h3 a {
+    color: var(--link-color);
+    text-decoration: none;
+    font-family: var(--font-primary);
+    font-size: 1.4em;
+}
+.result-item h3 a:hover {
+    text-decoration: underline;
+    color: var(--glow-color);
+}
+.result-item .url {
+    font-size: 0.9em;
+    color: var(--text-muted-color);
+    margin-bottom: 8px;
+    word-break: break-all;
+}
+.result-item .snippet {
+    font-size: 1em;
+    line-height: 1.5;
+}
+.result-item .snippet strong { /* Highlighted term */
+    color: var(--accent-color);
+    background-color: rgba(255,0,255,0.1);
+    padding: 0 2px;
+    font-weight: normal;
+}
+
+/* Pagination */
+#pagination {
+    margin-top: 30px;
+    text-align: center;
+}
+#pagination button {
+    background-color: transparent;
+    color: var(--link-color);
+    border: 1px solid var(--link-color);
+    padding: 8px 15px;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+#pagination button:hover:not(:disabled) {
+    background-color: var(--link-color);
+    color: var(--primary-color);
+}
+html.light-mode #pagination button:hover:not(:disabled) {
+    color: white;
+}
+#pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+#pagination #page-info {
+    color: var(--text-muted-color);
+    margin: 0 10px;
+}
+
+footer {
+    margin-top: 40px;
+    padding: 20px;
+    font-size: 0.9em;
+    color: var(--text-muted-color);
+    border-top: 1px dashed rgba(157, 114, 255, 0.3); /* var(--link-color) with alpha */
+    text-align: center;
+}
+
+/* Theme Toggle Button */
+#theme-toggle {
+    background: none;
+    border: 1px solid var(--text-muted-color);
+    color: var(--text-muted-color);
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 100; /* Ensure it's on top */
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.results-header #theme-toggle { /* Adjust for results page layout */
+    position: static;
+    margin-left: 10px;
+}
+
+#theme-toggle:hover {
+    color: var(--glow-color);
+    border-color: var(--glow-color);
+}
+.theme-icon {
+    width: 20px;
+    height: 20px;
+}
+
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .glitch {
+        font-size: 3.5em;
+    }
+    .tagline {
+        font-size: 1em;
+    }
+    #search-bar, #search-bar-results {
+        padding: 12px 15px;
+        font-size: 1em;
+    }
+    .search-button {
+        padding: 0 20px;
+    }
+    .results-header {
+        flex-direction: column;
+        align-items: center;
+    }
+    .results-header .glitch {
+        margin-bottom: 10px;
+    }
+    .results-header #search-form-results {
+        width: 100%;
+    }
+     #theme-toggle { /* Reposition on mobile */
+        top: 10px;
+        right: 10px;
+    }
+    .results-header #theme-toggle { /* Static in results header is fine */
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .glitch {
+        font-size: 2.8em;
+    }
+    .container {
+        padding: 15px;
+    }
+    .search-wrapper {
+        flex-direction: column; /* Stack input and button */
+        border-radius: 25px; /* Adjust for stacked look */
+    }
+    #search-bar, #search-bar-results {
+        border-bottom: 1px solid var(--accent-color);
+        border-radius: 25px 25px 0 0;
+    }
+    .search-button {
+        border-radius: 0 0 25px 25px;
+        padding: 12px;
+    }
+    #suggestions-box {
+        margin-top: 1px; /* Adjust due to stacked search bar */
+        border-radius: 0 0 10px 10px;
+    }
+    .result-item h3 a {
+        font-size: 1.2em;
+    }
+}
