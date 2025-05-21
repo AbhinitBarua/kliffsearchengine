@@ -5,25 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kliff Search Results</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="black-hole-bg"></div>
-    <div class="stars"></div>
-    <div class="twinkling"></div>
+    <div class="black-hole-container">
+        <div class="event-horizon"></div>
+        <div class="accretion-disk"></div>
+        <div class="stars"></div>
+        <div class="twinkling"></div>
+    </div>
+    <div class="overlay-effects"></div>
 
     <div class="container" id="results-container">
         <header class="results-header">
-            <a href="index.html" class="glitch" data-text="KLIFF">KLIFF</a>
-            <form id="search-form-results">
+            <a href="index.html" class="glitch kliff-title small-title" data-text="KLIFF">KLIFF</a>
+            <form id="search-form-results" role="search">
                 <div class="search-wrapper">
-                    <input type="text" id="search-bar-results" placeholder="Refine your query..." autocomplete="off">
-                    <button type="submit" class="search-button">
+                    <input type="search" id="search-bar-results" name="q" placeholder="Refine your query..." autocomplete="off" aria-label="Search query">
+                    <button type="submit" class="search-button" aria-label="Search">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M10 18a7.952 7.952 0 004.897-1.688l4.387 4.387a1 1 0 001.414-1.414l-4.387-4.387A8 8 0 1010 18zm0-14a6 6 0 110 12A6 6 0 014 12a6 6 0 016-6z"/></svg>
                     </button>
                 </div>
             </form>
-            <button id="theme-toggle">
+            <button id="theme-toggle" aria-label="Toggle theme">
                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" class="theme-icon moon-icon">
                     <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.75 12a.75.75 0 01.75-.75h2.25a.75.75 0 010 1.5H19.5a.75.75 0 01-.75-.75zM7.5 12a.75.75 0 01-.75.75H4.5a.75.75 0 010-1.5h2.25a.75.75 0 01.75.75zM12 18.75a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V19.5a.75.75 0 01.75-.75zM5.036 5.036A.75.75 0 015.75 4.31l1.617 1.617a.75.75 0 11-1.061 1.06L4.31 5.75a.75.75 0 01.726-.714zm12.329 1.617a.75.75 0 011.06 0l1.617-1.617a.75.75 0 111.06 1.06L18.97 6.096a.75.75 0 01-1.06 0zm1.617 12.329a.75.75 0 010 1.06l-1.617 1.617a.75.75 0 11-1.06-1.06l1.617-1.617a.75.75 0 011.06 0zm-12.329 1.617a.75.75 0 010-1.06l-1.617-1.617a.75.75 0 11-1.06 1.06l1.617 1.617a.75.75 0 011.06 0z"/>
                 </svg>
@@ -33,19 +37,18 @@
             </button>
         </header>
         <main id="results-main">
-            <p id="search-query-display">Showing results for: <span id="query-term"></span></p>
+            <p id="search-query-display" aria-live="polite">Showing results for: <span id="query-term"></span></p>
             <div id="search-results-list">
                 <!-- Results will be injected here by JS -->
             </div>
-            <div id="pagination">
-                <!-- Pagination will be handled by JS -->
+            <nav id="pagination" aria-label="Search results pagination">
                 <button id="prev-page" disabled>Previous</button>
-                <span id="page-info">Page 1 of 1</span>
+                <span id="page-info" aria-live="polite">Page 1 of 1</span>
                 <button id="next-page" disabled>Next</button>
-            </div>
+            </nav>
         </main>
         <footer>
-            <p>© 2024 Kliff Industries - Lost in hyperspace.</p>
+            <p>© <span id="current-year-results"></span> Kliff Industries - Lost in the cosmic static.</p>
         </footer>
     </div>
     <script src="script.js"></script>
