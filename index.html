@@ -5,18 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kliff Search</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="black-hole-bg"></div>
-    <div class="stars"></div>
-    <div class="twinkling"></div>
+    <div class="black-hole-container">
+        <div class="event-horizon"></div>
+        <div class="accretion-disk"></div>
+        <div class="stars"></div>
+        <div class="twinkling"></div>
+    </div>
+
+    <div class="overlay-effects"></div> <!-- For scanlines, noise etc. -->
 
     <div class="container" id="home-container">
         <header>
-            <h1 class="glitch" data-text="KLIFF">KLIFF</h1>
-            <p class="tagline">Dive into the digital abyss...</p>
-            <button id="theme-toggle">
+            <h1 class="glitch kliff-title" data-text="KLIFF">KLIFF</h1>
+            <p class="tagline">Traverse the Digital Singularity...</p>
+            <button id="theme-toggle" aria-label="Toggle theme">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" class="theme-icon moon-icon">
                     <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.75 12a.75.75 0 01.75-.75h2.25a.75.75 0 010 1.5H19.5a.75.75 0 01-.75-.75zM7.5 12a.75.75 0 01-.75.75H4.5a.75.75 0 010-1.5h2.25a.75.75 0 01.75.75zM12 18.75a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V19.5a.75.75 0 01.75-.75zM5.036 5.036A.75.75 0 015.75 4.31l1.617 1.617a.75.75 0 11-1.061 1.06L4.31 5.75a.75.75 0 01.726-.714zm12.329 1.617a.75.75 0 011.06 0l1.617-1.617a.75.75 0 111.06 1.06L18.97 6.096a.75.75 0 01-1.06 0zm1.617 12.329a.75.75 0 010 1.06l-1.617 1.617a.75.75 0 11-1.06-1.06l1.617-1.617a.75.75 0 011.06 0zm-12.329 1.617a.75.75 0 010-1.06l-1.617-1.617a.75.75 0 11-1.06 1.06l1.617 1.617a.75.75 0 011.06 0z"/>
                 </svg>
@@ -26,18 +31,18 @@
             </button>
         </header>
         <main>
-            <form id="search-form">
+            <form id="search-form" role="search">
                 <div class="search-wrapper">
-                    <input type="text" id="search-bar" placeholder="Probe the void..." autocomplete="off">
-                    <button type="submit" class="search-button">
+                    <input type="search" id="search-bar" name="q" placeholder="Probe the void..." autocomplete="off" aria-label="Search query" aria-controls="suggestions-box" aria-haspopup="listbox">
+                    <button type="submit" class="search-button" aria-label="Search">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M10 18a7.952 7.952 0 004.897-1.688l4.387 4.387a1 1 0 001.414-1.414l-4.387-4.387A8 8 0 1010 18zm0-14a6 6 0 110 12A6 6 0 014 12a6 6 0 016-6z"/></svg>
                     </button>
                 </div>
-                <div id="suggestions-box"></div>
+                <div id="suggestions-box" role="listbox"></div>
             </form>
         </main>
         <footer>
-            <p>© 2024 Kliff Industries - All rights reserved... probably.</p>
+            <p>© <span id="current-year"></span> Kliff Industries - All rights reserved... perhaps.</p>
         </footer>
     </div>
     <script src="script.js"></script>
