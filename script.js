@@ -6,76 +6,101 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchBarResults = document.getElementById('search-bar-results');
     const searchFormResults = document.getElementById('search-form-results');
     const resultsList = document.getElementById('search-results-list');
-    const queryTermDisplay = document.getElementById('query-term');
+    const queryTermDisplaySpan = document.getElementById('query-term'); // The span itself
+    const searchQueryDisplayP = document.getElementById('search-query-display'); // The P containing the span
     const paginationControls = document.getElementById('pagination');
     const prevPageButton = document.getElementById('prev-page');
     const nextPageButton = document.getElementById('next-page');
     const pageInfoDisplay = document.getElementById('page-info');
     
-    const themeToggleButton = document.querySelectorAll('#theme-toggle'); // Select all for both pages
-    const sunIcon = document.querySelectorAll('.sun-icon');
-    const moonIcon = document.querySelectorAll('.moon-icon');
+    const themeToggleButtons = document.querySelectorAll('#theme-toggle'); // NodeList
+    const sunIcons = document.querySelectorAll('.sun-icon');
+    const moonIcons = document.querySelectorAll('.moon-icon');
 
+    const currentYearSpan = document.getElementById('current-year');
+    if (currentYearSpan) currentYearSpan.textContent = new Date().getFullYear();
+    const currentYearResultsSpan = document.getElementById('current-year-results');
+    if (currentYearResultsSpan) currentYearResultsSpan.textContent = new Date().getFullYear();
 
     // --- Mock Data ---
     const mockSuggestions = [
-        "black hole information", "dark matter explained", "event horizon telescope",
-        "css animation tricks", "javascript game development", "webgl tutorials",
-        "sci-fi movie database", "absconding css techniques", "hosting node.js app"
+        "black hole dynamics", "event horizon phenomena", "dark energy theories",
+        "css cosmic themes", "javascript procedural generation", "webgl shaders for space",
+        "sci-fi universe lore", "absconding css secrets", "hosting quantum apps", "nebula formation"
     ];
 
-    // More detailed mock results
     const mockSearchResultsData = {
         "black hole": [
-            { title: "Understanding Black Holes - NASA", url: "nasa.gov/blackholes", description: "A black hole is a place in space where gravity pulls so much that even light can not get out. The gravity is so strong because matter has been squeezed into a tiny space." },
-            { title: "What is a Black Hole? | Event Horizon Telescope", url: "eventhorizontelescope.org/black-hole", description: "The Event Horizon Telescope collaboration presented the first direct visual evidence of a supermassive black hole and its shadow." },
-            { title: "Black Holes and Time Dilation - Physics Explained", url: "physics.example.com/timedilation", description: "Explore the fascinating concept of time dilation near massive objects like black holes, as predicted by Einstein's theory of general relativity." }
+            { title: "The Enigma of Black Holes - NASA Science", url: "science.nasa.gov/black-holes", description: "A black hole is an astronomical object with a gravitational pull so strong that nothing, not even light, can escape it. Dive into the latest research and discoveries." },
+            { title: "Visualizing a Black Hole | Event Horizon Telescope", url: "eventhorizontelescope.org/visuals", description: "The Event Horizon Telescope project has successfully imaged black holes, providing unprecedented visual evidence and data for scientists to study these cosmic giants." },
+            { title: "Gravitational Lensing by Black Holes", url: "physics.edu/gravitational-lensing", description: "Learn how the immense gravity of black holes can bend light, creating fascinating visual effects known as gravitational lensing and Einstein rings." },
+            { title: "Singularities and Cosmic Censorship", url: "cosmology.com/singularities", description: "Explore the theoretical concept of singularities at the heart of black holes and the cosmic censorship hypothesis that protects us from naked singularities." }
         ],
-        "css animation": [
-            { title: "CSS Animations - MDN Web Docs", url: "developer.mozilla.org/CSS/Animations", description: "CSS animations make it possible to animate transitions from one CSS style configuration to another. Animations consist of two components: a style describing the CSS animation and a set of keyframes that indicate the start and end states of the animation's style." },
-            { title: "Cool CSS Animation Examples - CodePen", url: "codepen.io/topic/css-animations", description: "A curated collection of impressive CSS animations from developers around the world. Get inspired and learn new techniques." }
+        "css themes": [
+            { title: "Advanced CSS Theming Techniques - MDN", url: "developer.mozilla.org/CSS/Theming", description: "Discover how to use CSS custom properties, ::part, and other modern CSS features to create robust and flexible theming systems for your web applications." },
+            { title: "Cosmic & Space Themes with CSS - Smashing Magazine", url: "smashingmagazine.com/css-space-themes", description: "A collection of tutorials and examples on creating stunning space-inspired themes using pure CSS, including stars, nebulas, and planet effects." }
         ],
-        "default": [ // Fallback for queries not in mockSearchResultsData
-            { title: "Kliff Search - No Specific Results", url: "kliff.search/no-results", description: "Your query did not match our specialized mock data. This is a generic placeholder result. In a real search engine, you'd see broader results." },
-            { title: "How Search Engines Work (Simplified)", url: "example.com/how-search-works", description: "Learn the basics of web crawling, indexing, and ranking that power search engines like Kliff (if it were real!)." }
+        "javascript generation": [
+            { title: "Procedural Content Generation (PCG) in JavaScript", url: "gamedev.net/pcg-js", description: "Learn the fundamentals of procedural content generation and how to implement algorithms in JavaScript to create dynamic game levels, textures, and more." },
+            { title: "Generative Art with p5.js", url: "p5js.org/examples", description: "p5.js is a JavaScript library for creative coding, with a focus on making coding accessible for artists, designers, educators, and beginners. Create stunning generative art." }
+        ],
+        "default": [
+            { title: "Kliff Archives - No Direct Match", url: "kliff.search/archives", description: "Your query did not yield specific results from our curated mock data. Consider rephrasing or exploring broader topics within the digital cosmos." },
+            { title: "The Nature of Search (A Kliff Primer)", url: "kliff.search/how-it-works", description: "A brief overview of how search engines (like this mock one) process queries, match terms, and attempt to return relevant information from their data stores." }
         ]
     };
-    const RESULTS_PER_PAGE = 5; // For pagination example
+    const RESULTS_PER_PAGE = 3; // For pagination example
     let currentPage = 1;
     let currentQueryResults = [];
 
-
     // --- Theme Toggle ---
     function setInitialTheme() {
-        const savedTheme = localStorage.getItem('kliffTheme') || 'dark';
+        const savedTheme = localStorage.getItem('kliffTheme') || 'dark'; // Default to dark
         if (savedTheme === 'light') {
             document.documentElement.classList.add('light-mode');
-            sunIcon.forEach(icon => icon.style.display = 'none');
-            moonIcon.forEach(icon => icon.style.display = 'block');
+            moonIcons.forEach(icon => icon.style.display = 'block');
+            sunIcons.forEach(icon => icon.style.display = 'none');
         } else {
             document.documentElement.classList.remove('light-mode');
-            sunIcon.forEach(icon => icon.style.display = 'block');
-            moonIcon.forEach(icon => icon.style.display = 'none');
+            moonIcons.forEach(icon => icon.style.display = 'none');
+            sunIcons.forEach(icon => icon.style.display = 'block');
+        }
+        // Set CSS RGB variables for dynamic colors in CSS (e.g., accretion disk)
+        setRgbCssVariables(savedTheme);
+    }
+
+    function setRgbCssVariables(theme) {
+        const root = document.documentElement;
+        if (theme === 'light') {
+            // Example for light theme, if accretion disk were visible
+            // root.style.setProperty('--glow-color-light-rgb', '0, 123, 255'); 
+        } else { // dark theme
+            root.style.setProperty('--glow-color-dark-rgb', '0, 255, 255');
+            root.style.setProperty('--accent-color-dark-rgb', '255, 0, 255');
+            root.style.setProperty('--secondary-color-dark-rgb', '13, 13, 43');
+            root.style.setProperty('--primary-color-dark-rgb', '2, 0, 26');
         }
     }
 
-    themeToggleButton.forEach(button => {
+
+    themeToggleButtons.forEach(button => {
         button.addEventListener('click', () => {
             document.documentElement.classList.toggle('light-mode');
-            let theme = 'dark';
+            let currentTheme = 'dark';
             if (document.documentElement.classList.contains('light-mode')) {
-                theme = 'light';
-                sunIcon.forEach(icon => icon.style.display = 'none');
-                moonIcon.forEach(icon => icon.style.display = 'block');
+                currentTheme = 'light';
+                moonIcons.forEach(icon => icon.style.display = 'block');
+                sunIcons.forEach(icon => icon.style.display = 'none');
             } else {
-                sunIcon.forEach(icon => icon.style.display = 'block');
-                moonIcon.forEach(icon => icon.style.display = 'none');
+                moonIcons.forEach(icon => icon.style.display = 'none');
+                sunIcons.forEach(icon => icon.style.display = 'block');
             }
-            localStorage.setItem('kliffTheme', theme);
+            localStorage.setItem('kliffTheme', currentTheme);
+            setRgbCssVariables(currentTheme);
         });
     });
     
-    setInitialTheme(); // Apply theme on load
+    setInitialTheme();
 
     // --- Homepage Search Logic ---
     if (searchBar && searchForm && suggestionsBox) {
@@ -84,26 +109,35 @@ document.addEventListener('DOMContentLoaded', () => {
         searchBar.addEventListener('input', (e) => {
             const query = e.target.value.toLowerCase();
             suggestionsBox.innerHTML = '';
-            suggestionIndex = -1; // Reset index
+            suggestionIndex = -1; 
 
-            if (query.length > 1) {
+            if (query.length > 0) { // Show suggestions even for 1 char
                 const filteredSuggestions = mockSuggestions.filter(s => s.toLowerCase().includes(query));
-                filteredSuggestions.slice(0, 5).forEach(suggestion => { // Limit to 5 suggestions
+                suggestionsBox.style.display = filteredSuggestions.length > 0 ? 'block' : 'none';
+                
+                filteredSuggestions.slice(0, 5).forEach((suggestion, idx) => {
                     const div = document.createElement('div');
                     div.textContent = suggestion;
+                    div.setAttribute('role', 'option');
+                    div.id = `suggestion-${idx}`;
                     div.addEventListener('click', () => {
                         searchBar.value = suggestion;
                         suggestionsBox.innerHTML = '';
-                        searchForm.requestSubmit(); // Submit form
+                        suggestionsBox.style.display = 'none';
+                        searchForm.requestSubmit(); 
                     });
                     suggestionsBox.appendChild(div);
                 });
+            } else {
+                suggestionsBox.style.display = 'none';
             }
         });
 
         searchBar.addEventListener('keydown', (e) => {
-            const suggestions = suggestionsBox.querySelectorAll('div');
-            if (suggestions.length === 0) return;
+            const suggestions = suggestionsBox.querySelectorAll('div[role="option"]');
+            if (suggestions.length === 0 || suggestionsBox.style.display === 'none') return;
+
+            let currentActive = document.getElementById(searchBar.getAttribute('aria-activedescendant'));
 
             if (e.key === 'ArrowDown') {
                 e.preventDefault();
@@ -115,25 +149,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateSelectedSuggestion(suggestions);
             } else if (e.key === 'Enter') {
                 if (suggestionIndex > -1 && suggestions[suggestionIndex]) {
-                    e.preventDefault(); // Prevent form submission if selecting suggestion
+                    e.preventDefault(); 
                     suggestions[suggestionIndex].click();
                 }
-                // If no suggestion selected, let form submit normally
             } else if (e.key === 'Escape') {
                 suggestionsBox.innerHTML = '';
+                suggestionsBox.style.display = 'none';
                 suggestionIndex = -1;
+                searchBar.removeAttribute('aria-activedescendant');
             }
         });
         
         function updateSelectedSuggestion(suggestions) {
             suggestions.forEach((s, i) => {
-                s.classList.toggle('selected', i === suggestionIndex);
-                if (i === suggestionIndex) {
+                const isSelected = i === suggestionIndex;
+                s.classList.toggle('selected', isSelected);
+                if (isSelected) {
                     s.scrollIntoView({ block: 'nearest' });
+                    searchBar.setAttribute('aria-activedescendant', s.id);
                 }
             });
             if (suggestionIndex > -1 && suggestions[suggestionIndex]) {
-                searchBar.value = suggestions[suggestionIndex].textContent; // Update search bar text
+                // searchBar.value = suggestions[suggestionIndex].textContent; // Optionally update search bar text on arrow nav
             }
         }
 
@@ -145,27 +182,29 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Close suggestions if clicked outside
         document.addEventListener('click', (e) => {
-            if (!searchBar.contains(e.target) && !suggestionsBox.contains(e.target)) {
+            if (!searchForm.contains(e.target)) { // Check if click is outside the form (input + suggestions)
                 suggestionsBox.innerHTML = '';
+                suggestionsBox.style.display = 'none';
                 suggestionIndex = -1;
+                searchBar.removeAttribute('aria-activedescendant');
             }
         });
     }
 
     // --- Results Page Logic ---
-    if (resultsList && queryTermDisplay && searchBarResults && searchFormResults) {
+    if (resultsList && searchQueryDisplayP && searchBarResults && searchFormResults) {
         const urlParams = new URLSearchParams(window.location.search);
         const query = urlParams.get('q');
 
         if (query) {
-            searchBarResults.value = decodeURIComponent(query); // Populate search bar on results page
-            queryTermDisplay.textContent = decodeURIComponent(query);
-            performSearch(decodeURIComponent(query));
+            const decodedQuery = decodeURIComponent(query);
+            searchBarResults.value = decodedQuery;
+            if(queryTermDisplaySpan) queryTermDisplaySpan.textContent = decodedQuery;
+            performSearch(decodedQuery);
         } else {
-            queryTermDisplay.textContent = "No query entered.";
-            resultsList.innerHTML = "<p>Please enter a search term.</p>";
+            if(queryTermDisplaySpan) queryTermDisplaySpan.textContent = "No query entered.";
+            resultsList.innerHTML = "<p>Please enter a search term in the void above.</p>";
             if (paginationControls) paginationControls.style.display = 'none';
         }
 
@@ -173,37 +212,46 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const newQuery = searchBarResults.value.trim();
             if (newQuery) {
-                // Update URL and re-render (or redirect for cleaner history)
                 window.location.href = `results.html?q=${encodeURIComponent(newQuery)}`;
             }
         });
     }
 
     function performSearch(query) {
-        // In a real app, this would be an API call.
-        // Here, we use mock data.
         const lowerQuery = query.toLowerCase();
-        currentQueryResults = mockSearchResultsData[lowerQuery] || 
-                              (mockSearchResultsData.default.map(r => ({...r, title: r.title.replace("No Specific Results", `Results for "${query}"`)})));
+        const queryParts = lowerQuery.split(" ");
         
-        currentPage = 1; // Reset to first page for new search
-        renderResultsPage();
+        // Try to find a match for the full query or parts of it
+        let foundResults = mockSearchResultsData[lowerQuery];
+        if (!foundResults) {
+            for (const part of queryParts) {
+                if (mockSearchResultsData[part]) {
+                    foundResults = mockSearchResultsData[part];
+                    break;
+                }
+            }
+        }
+        currentQueryResults = foundResults || 
+                              (mockSearchResultsData.default.map(r => ({...r, title: r.title.replace("No Direct Match", `No Direct Match for "${query}"`)})));
+        
+        currentPage = 1;
+        renderResultsPage(query); // Pass original query for highlighting
     }
 
-    function renderResultsPage() {
+    function renderResultsPage(originalQuery) {
         if (!resultsList) return;
-        resultsList.innerHTML = ''; // Clear previous results
+        resultsList.innerHTML = ''; 
 
         const totalResults = currentQueryResults.length;
         const totalPages = Math.ceil(totalResults / RESULTS_PER_PAGE);
 
         if (totalResults === 0) {
-            resultsList.innerHTML = `<p>No results found for "<strong>${decodeURIComponent(queryTermDisplay.textContent)}</strong>". Try another dimension?</p>`;
+            resultsList.innerHTML = `<p>The void echoes... no results found for "<strong>${escapeHTML(originalQuery)}</strong>".</p>`;
             if (paginationControls) paginationControls.style.display = 'none';
             return;
         }
         
-        if (paginationControls) paginationControls.style.display = 'block';
+        if (paginationControls) paginationControls.style.display = totalPages > 1 ? 'block' : 'none';
 
 
         const start = (currentPage - 1) * RESULTS_PER_PAGE;
@@ -214,12 +262,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const item = document.createElement('div');
             item.classList.add('result-item');
 
-            const title = document.createElement('h3');
+            const titleEl = document.createElement('h3');
             const link = document.createElement('a');
-            link.href = `http://${result.url}`; // Assume http for mock
+            link.href = result.url.startsWith('http') ? result.url : `http://${result.url}`;
             link.textContent = result.title;
-            link.target = "_blank"; // Open in new tab
-            title.appendChild(link);
+            link.target = "_blank"; 
+            link.rel = "noopener noreferrer";
+            titleEl.appendChild(link);
 
             const urlP = document.createElement('p');
             urlP.classList.add('url');
@@ -227,12 +276,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const snippetP = document.createElement('p');
             snippetP.classList.add('snippet');
-            // Basic highlighting (replace with more robust solution in real app)
-            const queryForHighlight = queryTermDisplay.textContent.split(" ")[0]; // Use first word for simple highlight
-            const regex = new RegExp(`(${escapeRegExp(queryForHighlight)})`, 'gi');
-            snippetP.innerHTML = result.description.replace(regex, '<strong>$1</strong>');
+            
+            let highlightedDescription = result.description;
+            if (originalQuery) {
+                const queryTerms = originalQuery.toLowerCase().split(/\s+/).filter(term => term.length > 1); // Split query and filter short terms
+                queryTerms.forEach(term => {
+                    const regex = new RegExp(`(${escapeRegExp(term)})`, 'gi');
+                    highlightedDescription = highlightedDescription.replace(regex, '<strong>$1</strong>');
+                });
+            }
+            snippetP.innerHTML = highlightedDescription;
 
-            item.appendChild(title);
+
+            item.appendChild(titleEl);
             item.appendChild(urlP);
             item.appendChild(snippetP);
             resultsList.appendChild(item);
@@ -243,6 +299,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updatePaginationControls(totalPages) {
         if (!pageInfoDisplay || !prevPageButton || !nextPageButton) return;
+        if (totalPages <=1 ) {
+            if(paginationControls) paginationControls.style.display = 'none';
+            return;
+        }
+        if(paginationControls) paginationControls.style.display = 'flex'; // Use flex for better alignment
 
         pageInfoDisplay.textContent = `Page ${currentPage} of ${totalPages}`;
         prevPageButton.disabled = currentPage === 1;
@@ -251,21 +312,33 @@ document.addEventListener('DOMContentLoaded', () => {
         prevPageButton.onclick = () => {
             if (currentPage > 1) {
                 currentPage--;
-                renderResultsPage();
-                window.scrollTo(0,0); // Scroll to top
+                const currentQuery = decodeURIComponent(new URLSearchParams(window.location.search).get('q') || "");
+                renderResultsPage(currentQuery);
+                window.scrollTo({top: 0, behavior: 'smooth'});
             }
         };
         nextPageButton.onclick = () => {
             if (currentPage < totalPages) {
                 currentPage++;
-                renderResultsPage();
-                window.scrollTo(0,0); // Scroll to top
+                const currentQuery = decodeURIComponent(new URLSearchParams(window.location.search).get('q') || "");
+                renderResultsPage(currentQuery);
+                window.scrollTo({top: 0, behavior: 'smooth'});
             }
         };
     }
 
     function escapeRegExp(string) {
-        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     }
-
+    function escapeHTML(str) {
+        return str.replace(/[&<>"']/g, function (match) {
+            return {
+                '&': '&',
+                '<': '<',
+                '>': '>',
+                '"': '"',
+                "'": '''
+            }[match];
+        });
+    }
 });
