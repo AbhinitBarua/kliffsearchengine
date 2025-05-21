@@ -1,659 +1,2145 @@
-/* style.css */
+/* style.css - Kliff Search Engine - Expanded Edition */
+
+/*-----------------------------------------------------------------------------
+  0.  ROOT & GLOBAL STYLES
+      - CSS Custom Properties (Themes, Fonts, Sizes, Animations)
+      - Basic Reset & Body Styling
+      - Typography Defaults
+      - Scrollbar Styling
+-----------------------------------------------------------------------------*/
+
 :root {
-    --primary-color-dark: #02001a; /* Near black with a hint of deep blue/purple */
-    --secondary-color-dark: #0d0d2b; /* Deep space blue */
-    --accent-color-dark: #ff00ff; /* Magenta */
-    --glow-color-dark: #00ffff; /* Cyan */
-    --text-color-dark: #e0e0e0;
-    --text-muted-color-dark: #a0a0a0;
-    --link-color-dark: #b392ff; /* Brighter Lavender */
-    --highlight-bg-dark: rgba(255,0,255,0.15);
+    /* Color Palette: Dark Theme (Default) */
+    --kliff-color-primary-bg-dark: #010010; /* Even darker, near black with deep indigo hint */
+    --kliff-color-secondary-bg-dark: #0a0822; /* Deep void blue/purple */
+    --kliff-color-tertiary-bg-dark: #141035; /* Slightly lighter void element bg */
+    --kliff-color-accent-primary-dark: #ff00ff; /* Cyber Magenta */
+    --kliff-color-accent-secondary-dark: #00ffff; /* Electric Cyan */
+    --kliff-color-accent-tertiary-dark: #7d00ff; /* Deep Violet */
+    --kliff-color-text-primary-dark: #e8e8ff; /* Off-white with a hint of lavender */
+    --kliff-color-text-secondary-dark: #a0a8d0; /* Muted cyber blue/gray */
+    --kliff-color-text-link-dark: #c0a0ff; /* Lavender link */
+    --kliff-color-text-link-hover-dark: var(--kliff-color-accent-secondary-dark);
+    --kliff-color-border-dark: rgba(var(--kliff-color-accent-secondary-dark-rgb, 0, 255, 255), 0.3);
+    --kliff-color-shadow-glow-dark: rgba(var(--kliff-color-accent-secondary-dark-rgb, 0, 255, 255), 0.5);
+    --kliff-color-shadow-accent-dark: rgba(var(--kliff-color-accent-primary-dark-rgb, 255, 0, 255), 0.5);
+    --kliff-highlight-bg-dark: rgba(var(--kliff-color-accent-primary-dark-rgb, 255, 0, 255), 0.2);
 
-    --primary-color-light: #f0f8ff; /* Alice Blue */
-    --secondary-color-light: #e6e6fa; /* Lavender */
-    --accent-color-light: #ff1493; /* Deep Pink */
-    --glow-color-light: #007bff; /* Bright Blue */
-    --text-color-light: #1a1a1a;
-    --text-muted-color-light: #555;
-    --link-color-light: #6a0dad; /* Purple */
-    --highlight-bg-light: rgba(0,123,255,0.15);
+    /* Color Palette: Light Theme */
+    --kliff-color-primary-bg-light: #f4f8ff; /* Very light sky blue */
+    --kliff-color-secondary-bg-light: #e8eef7; /* Light periwinkle */
+    --kliff-color-tertiary-bg-light: #ffffff; /* White for elements */
+    --kliff-color-accent-primary-light: #e60073; /* Vibrant Pink */
+    --kliff-color-accent-secondary-light: #007bff; /* Bright Blue */
+    --kliff-color-accent-tertiary-light: #5e2bff; /* Bright Purple */
+    --kliff-color-text-primary-light: #181c28; /* Dark charcoal */
+    --kliff-color-text-secondary-light: #4a5568; /* Medium gray */
+    --kliff-color-text-link-light: #4c00b0; /* Deep purple link */
+    --kliff-color-text-link-hover-light: var(--kliff-color-accent-primary-light);
+    --kliff-color-border-light: rgba(var(--kliff-color-accent-secondary-light-rgb, 0, 123, 255), 0.4);
+    --kliff-color-shadow-glow-light: rgba(var(--kliff-color-accent-secondary-light-rgb, 0, 123, 255), 0.3);
+    --kliff-color-shadow-accent-light: rgba(var(--kliff-color-accent-primary-light-rgb, 230, 0, 115), 0.3);
+    --kliff-highlight-bg-light: rgba(var(--kliff-color-accent-secondary-light-rgb, 0, 123, 255), 0.15);
 
-    --font-primary: 'Orbitron', sans-serif;
-    --font-secondary: 'Share Tech Mono', monospace;
+    /* RGB versions for rgba() usage (JS can set these too) */
+    --kliff-color-primary-bg-dark-rgb: 1, 0, 16;
+    --kliff-color-accent-primary-dark-rgb: 255, 0, 255;
+    --kliff-color-accent-secondary-dark-rgb: 0, 255, 255;
+    --kliff-color-accent-primary-light-rgb: 230, 0, 115;
+    --kliff-color-accent-secondary-light-rgb: 0, 123, 255;
 
-    /* Absconding Variables */
-    --glitch-intensity: 3px;
-    --glitch-flicker-speed: 0.05s;
-    --scanline-opacity: 0.07;
-    --noise-opacity: 0.03;
-    --flicker-speed: 1.2s;
-    --shadow-color: rgba(0, 255, 255, 0.5);
-    --shadow-color-accent: rgba(255, 0, 255, 0.5);
 
-    /* Default to dark theme variables */
-    --primary-color: var(--primary-color-dark);
-    --secondary-color: var(--secondary-color-dark);
-    --accent-color: var(--accent-color-dark);
-    --glow-color: var(--glow-color-dark);
-    --text-color: var(--text-color-dark);
-    --text-muted-color: var(--text-muted-color-dark);
-    --link-color: var(--link-color-dark);
-    --highlight-bg: var(--highlight-bg-dark);
+    /* Typography */
+    --kliff-font-primary: 'Orbitron', sans-serif; /* Sci-fi, titles */
+    --kliff-font-secondary: 'Share Tech Mono', monospace; /* Body, code-like */
+    --kliff-font-tertiary: 'Audiowide', cursive; /* Alternative display */
+
+    --kliff-font-size-base: 16px;
+    --kliff-font-size-small: 0.875rem;  /* 14px */
+    --kliff-font-size-medium: 1rem;     /* 16px */
+    --kliff-font-size-large: 1.25rem;   /* 20px */
+    --kliff-font-size-xl: 1.5rem;     /* 24px */
+    --kliff-font-size-xxl: 2.25rem;   /* 36px */
+    --kliff-font-size-logo: clamp(3em, 12vw, 7em);
+    --kliff-font-size-logo-small: clamp(1.8em, 6vw, 3em);
+
+    /* Spacing & Sizing */
+    --kliff-spacing-unit: 8px;
+    --kliff-spacing-xs: calc(var(--kliff-spacing-unit) * 0.5); /* 4px */
+    --kliff-spacing-sm: var(--kliff-spacing-unit);           /* 8px */
+    --kliff-spacing-md: calc(var(--kliff-spacing-unit) * 2); /* 16px */
+    --kliff-spacing-lg: calc(var(--kliff-spacing-unit) * 3); /* 24px */
+    --kliff-spacing-xl: calc(var(--kliff-spacing-unit) * 4); /* 32px */
+    --kliff-spacing-xxl: calc(var(--kliff-spacing-unit) * 6);/* 48px */
+
+    --kliff-border-radius-sm: 4px;
+    --kliff-border-radius-md: 8px;
+    --kliff-border-radius-lg: 16px;
+    --kliff-border-radius-pill: 50px;
+
+    /* Animation & Transitions */
+    --kliff-transition-duration-short: 0.15s;
+    --kliff-transition-duration-medium: 0.3s;
+    --kliff-transition-duration-long: 0.5s;
+    --kliff-transition-timing-function: ease-in-out;
+
+    /* Absconding Effects Variables */
+    --kliff-glitch-intensity: 3px;
+    --kliff-scanline-opacity-dark: 0.08;
+    --kliff-scanline-opacity-light: 0.04; /* Lighter for light mode */
+    --kliff-noise-opacity-dark: 0.035;
+    --kliff-noise-opacity-light: 0.02;
+    --kliff-vignette-intensity-dark: 0.3;
+    --kliff-vignette-intensity-light: 0.15;
+
+    /* Default to Dark Theme Variables */
+    --kliff-primary-bg: var(--kliff-color-primary-bg-dark);
+    --kliff-secondary-bg: var(--kliff-color-secondary-bg-dark);
+    --kliff-tertiary-bg: var(--kliff-color-tertiary-bg-dark);
+    --kliff-accent-primary: var(--kliff-color-accent-primary-dark);
+    --kliff-accent-secondary: var(--kliff-color-accent-secondary-dark);
+    --kliff-accent-tertiary: var(--kliff-color-accent-tertiary-dark);
+    --kliff-text-primary: var(--kliff-color-text-primary-dark);
+    --kliff-text-secondary: var(--kliff-color-text-secondary-dark);
+    --kliff-text-link: var(--kliff-color-text-link-dark);
+    --kliff-text-link-hover: var(--kliff-color-text-link-hover-dark);
+    --kliff-border-color: var(--kliff-color-border-dark);
+    --kliff-shadow-glow: var(--kliff-color-shadow-glow-dark);
+    --kliff-shadow-accent: var(--kliff-color-shadow-accent-dark);
+    --kliff-highlight-bg: var(--kliff-highlight-bg-dark);
+    --kliff-scanline-opacity: var(--kliff-scanline-opacity-dark);
+    --kliff-noise-opacity: var(--kliff-noise-opacity-dark);
+    --kliff-vignette-intensity: var(--kliff-vignette-intensity-dark);
+
+    /* For JS to easily get RGB for background elements */
+    --kliff-accent-primary-rgb: var(--kliff-color-accent-primary-dark-rgb);
+    --kliff-accent-secondary-rgb: var(--kliff-color-accent-secondary-dark-rgb);
 }
 
-html.light-mode {
-    --primary-color: var(--primary-color-light);
-    --secondary-color: var(--secondary-color-light);
-    --accent-color: var(--accent-color-light);
-    --glow-color: var(--glow-color-light);
-    --text-color: var(--text-color-light);
-    --text-muted-color: var(--text-muted-color-light);
-    --link-color: var(--link-color-light);
-    --highlight-bg: var(--highlight-bg-light);
-    --shadow-color: rgba(0, 123, 255, 0.4);
-    --shadow-color-accent: rgba(255, 20, 147, 0.4);
+html.kliff-light-theme {
+    --kliff-primary-bg: var(--kliff-color-primary-bg-light);
+    --kliff-secondary-bg: var(--kliff-color-secondary-bg-light);
+    --kliff-tertiary-bg: var(--kliff-color-tertiary-bg-light);
+    --kliff-accent-primary: var(--kliff-color-accent-primary-light);
+    --kliff-accent-secondary: var(--kliff-color-accent-secondary-light);
+    --kliff-accent-tertiary: var(--kliff-color-accent-tertiary-light);
+    --kliff-text-primary: var(--kliff-color-text-primary-light);
+    --kliff-text-secondary: var(--kliff-color-text-secondary-light);
+    --kliff-text-link: var(--kliff-color-text-link-light);
+    --kliff-text-link-hover: var(--kliff-color-text-link-hover-light);
+    --kliff-border-color: var(--kliff-color-border-light);
+    --kliff-shadow-glow: var(--kliff-color-shadow-glow-light);
+    --kliff-shadow-accent: var(--kliff-color-shadow-accent-light);
+    --kliff-highlight-bg: var(--kliff-highlight-bg-light);
+    --kliff-scanline-opacity: var(--kliff-scanline-opacity-light);
+    --kliff-noise-opacity: var(--kliff-noise-opacity-light);
+    --kliff-vignette-intensity: var(--kliff-vignette-intensity-light);
+    
+    --kliff-accent-primary-rgb: var(--kliff-color-accent-primary-light-rgb);
+    --kliff-accent-secondary-rgb: var(--kliff-color-accent-secondary-light-rgb);
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
-}
-
-body {
     margin: 0;
-    font-family: var(--font-secondary);
-    color: var(--text-color);
-    background-color: var(--primary-color);
-    overflow-x: hidden;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    transition: background-color 0.4s ease, color 0.4s ease;
-    position: relative; /* For pseudo-elements if needed directly on body */
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-/* --- Black Hole Background --- */
-.black-hole-container {
+html {
+    font-size: var(--kliff-font-size-base);
+    scroll-behavior: smooth;
+    height: 100%; /* Ensure html takes full height */
+}
+
+body.kliff-body {
+    font-family: var(--kliff-font-secondary);
+    background-color: var(--kliff-primary-bg);
+    color: var(--kliff-text-primary);
+    line-height: 1.6;
+    min-height: 100vh; /* Changed from 100% */
+    display: flex; /* For footer pushing */
+    flex-direction: column; /* For footer pushing */
+    overflow-x: hidden; /* Critical for preventing horizontal scroll from animations */
+    position: relative; /* For absolute positioned children like background */
+    transition: background-color var(--kliff-transition-duration-medium) var(--kliff-transition-timing-function),
+                color var(--kliff-transition-duration-medium) var(--kliff-transition-timing-function);
+}
+
+/* Custom Scrollbar (Webkit only for now) */
+body.kliff-body::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+body.kliff-body::-webkit-scrollbar-track {
+    background: rgba(var(--kliff-secondary-bg-rgb, 10, 8, 34), 0.5); /* Use RGB var if set, else default */
+}
+html.kliff-light-theme body.kliff-body::-webkit-scrollbar-track {
+    background: rgba(var(--kliff-secondary-bg-rgb, 232, 238, 247), 0.7);
+}
+body.kliff-body::-webkit-scrollbar-thumb {
+    background-color: var(--kliff-accent-tertiary);
+    border-radius: var(--kliff-border-radius-pill);
+    border: 2px solid var(--kliff-primary-bg);
+    transition: background-color var(--kliff-transition-duration-short);
+}
+body.kliff-body::-webkit-scrollbar-thumb:hover {
+    background-color: var(--kliff-accent-secondary);
+}
+
+
+/*-----------------------------------------------------------------------------
+  1.  BACKGROUND VISUALS
+      - Black Hole Core, Accretion Disks, Relativistic Jets
+      - Starfield, Nebulae
+      - Light theme alternatives
+-----------------------------------------------------------------------------*/
+
+.black-hole-visual-container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -3;
-    overflow: hidden; /* Prevent scrollbars from pseudo-elements */
-    background-color: #000; /* Base for black hole */
-}
-html.light-mode .black-hole-container {
-    background: linear-gradient(135deg, #e0f2f7 0%, #87CEEB 100%); /* Light sky gradient */
+    z-index: -10; /* Deepest background layer */
+    overflow: hidden;
+    background-color: #000000; /* Fallback for very dark */
+    perspective: 1000px; /* For 3D-ish effects if any */
+    transition: background-color var(--kliff-transition-duration-long);
 }
 
+html.kliff-light-theme .black-hole-visual-container {
+    background: linear-gradient(135deg, #d4eaff 0%, #a9d1f7 100%); /* Softer sky for light theme */
+}
 
-.event-horizon {
+.event-horizon-core {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 100px; /* Central "hole" */
-    height: 100px;
-    background: #000; /* Pure black */
+    width: clamp(80px, 10vw, 150px);
+    height: clamp(80px, 10vw, 150px);
+    background: #000;
     border-radius: 50%;
     transform: translate(-50%, -50%) scale(1);
-    box-shadow: 0 0 60px 30px #000; /* Soften edge into accretion */
-    animation: pulse-black-hole 10s infinite alternate ease-in-out;
+    box-shadow: 0 0 80px 40px #000, /* Inner deep shadow */
+                0 0 120px 60px rgba(0,0,0,0.8), /* Outer fading shadow */
+                inset 0 0 30px 10px rgba(10,0,20,0.5); /* Slight inner glow */
+    animation: pulse-event-horizon 12s infinite alternate cubic-bezier(0.68, -0.55, 0.27, 1.55),
+               subtle-shift-horizon 25s infinite alternate ease-in-out;
+    z-index: -9;
 }
-html.light-mode .event-horizon {
-    display:none; /* Less fitting for light mode */
+html.kliff-light-theme .event-horizon-core { display: none; } /* Not fitting for light mode */
+
+@keyframes pulse-event-horizon {
+    0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.95; }
+    100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+}
+@keyframes subtle-shift-horizon {
+    0% { transform: translate(-51%, -49%) scale(var(--scale, 1)); }
+    25% { transform: translate(-49%, -51%) scale(var(--scale, 1)); }
+    50% { transform: translate(-50%, -50%) scale(var(--scale, 1)); }
+    75% { transform: translate(-52%, -48%) scale(var(--scale, 1)); }
+    100% { transform: translate(-51%, -49%) scale(var(--scale, 1)); }
 }
 
-@keyframes pulse-black-hole {
-    0% { transform: translate(-50%, -50%) scale(0.95); box-shadow: 0 0 50px 25px #000;}
-    100% { transform: translate(-50%, -50%) scale(1.05); box-shadow: 0 0 70px 35px #000;}
-}
-
-.accretion-disk {
+.accretion-disk-primary,
+.accretion-disk-secondary {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 400px; /* Adjust size as needed */
-    height: 400px;
-    transform: translate(-50%, -50%) rotate(0deg);
     border-radius: 50%;
+    transform-style: preserve-3d; /* For potential 3D tilt */
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+html.kliff-light-theme .accretion-disk-primary,
+html.kliff-light-theme .accretion-disk-secondary { display: none; }
+
+
+.accretion-disk-primary {
+    width: clamp(300px, 40vw, 600px);
+    height: clamp(300px, 40vw, 600px);
+    transform: translate(-50%, -50%) rotateX(75deg) rotateZ(0deg); /* Tilted view */
     background: radial-gradient(ellipse at center,
-        rgba(0,0,0,0) 0%, /* Transparent center */
-        rgba(0,0,0,0) 20%, /* Start of visible disk */
-        rgba(var(--glow-color-dark-rgb, 0, 255, 255), 0.1) 35%,
-        rgba(var(--accent-color-dark-rgb, 255, 0, 255), 0.2) 50%,
-        rgba(var(--secondary-color-dark-rgb, 13, 13, 43), 0.3) 70%,
-        rgba(var(--primary-color-dark-rgb, 2, 0, 26), 0.0) 100% /* Fade to outer space */
+        transparent 0%,
+        transparent 30%, /* Larger transparent center */
+        rgba(var(--kliff-accent-secondary-rgb), 0.05) 35%,
+        rgba(var(--kliff-accent-primary-rgb), 0.15) 50%,
+        rgba(var(--kliff-accent-tertiary-rgb, 125,0,255), 0.2) 65%,
+        rgba(var(--kliff-secondary-bg-rgb, 10, 8, 34), 0.1) 80%,
+        transparent 100%
     );
-    animation: spin-accretion 30s linear infinite, flicker-accretion 3s infinite alternate;
+    animation-name: spin-accretion-primary, flicker-disk-primary;
+    animation-duration: 40s, 2.5s; /* Slower spin, faster flicker */
+    animation-delay: 0s, 0.2s;
+    filter: blur(8px) brightness(1.2);
+    z-index: -8;
+}
+
+.accretion-disk-secondary {
+    width: clamp(400px, 55vw, 800px);
+    height: clamp(400px, 55vw, 800px);
+    transform: translate(-50%, -50%) rotateX(70deg) rotateZ(0deg); /* Slightly different tilt */
+    background: radial-gradient(ellipse at center,
+        transparent 0%,
+        transparent 40%,
+        rgba(var(--kliff-accent-secondary-rgb), 0.1) 50%,
+        rgba(var(--kliff-accent-tertiary-rgb, 125,0,255), 0.05) 70%,
+        transparent 100%
+    );
+    animation-name: spin-accretion-secondary, flicker-disk-secondary;
+    animation-duration: 60s, 3.5s; /* Even slower spin */
+    animation-delay: -10s, 0s; /* Offset animation start */
+    filter: blur(12px) opacity(0.8);
+    z-index: -7;
+}
+
+@keyframes spin-accretion-primary {
+    from { transform: translate(-50%, -50%) rotateX(75deg) rotateZ(0deg); }
+    to { transform: translate(-50%, -50%) rotateX(75deg) rotateZ(360deg); }
+}
+@keyframes spin-accretion-secondary {
+    from { transform: translate(-50%, -50%) rotateX(70deg) rotateZ(0deg); }
+    to { transform: translate(-50%, -50%) rotateX(70deg) rotateZ(-360deg); } /* Opposite spin */
+}
+@keyframes flicker-disk-primary {
+    0%, 100% { opacity: 0.6; filter: blur(8px) brightness(1.1); }
+    33% { opacity: 0.9; filter: blur(7px) brightness(1.3); }
+    66% { opacity: 0.5; filter: blur(9px) brightness(1.0); }
+}
+@keyframes flicker-disk-secondary {
+    0%, 100% { opacity: 0.7; filter: blur(12px); }
+    50% { opacity: 0.9; filter: blur(10px); }
+}
+
+.relativistic-jets {
+    position: absolute;
+    left: 50%;
+    width: clamp(10px, 2vw, 30px); /* Thinner jets */
+    height: 50%; /* Extend to edge of screen */
+    background: linear-gradient(
+        to bottom,
+        rgba(var(--kliff-accent-secondary-rgb), 0) 0%,
+        rgba(var(--kliff-accent-secondary-rgb), 0.6) 50%,
+        rgba(var(--kliff-accent-secondary-rgb), 0) 100%
+    );
+    transform-origin: center;
+    animation: pulse-jets 5s infinite alternate ease-in-out,
+               sway-jets 20s infinite alternate ease-in-out;
     filter: blur(5px);
+    z-index: -6;
+    opacity: 0; /* Start hidden, fade in with JS or initial animation */
+    animation-fill-mode: forwards;
+    animation-name: fadeInJet, pulse-jets, sway-jets; /* fadeInJet will run once */
+    animation-duration: 2s, 5s, 20s;
+    animation-delay: 1s, 3s, 3s; /* Stagger animations */
+    animation-iteration-count: 1, infinite, infinite;
+    animation-timing-function: ease-out, ease-in-out, ease-in-out;
 }
-html.light-mode .accretion-disk {
-    display: none; /* Not suitable for light mode */
+html.kliff-light-theme .relativistic-jets { display: none; }
+
+.jet-top {
+    top: 0;
+    transform: translateX(-50%) scaleY(1) rotate(0deg);
+    background: linear-gradient( to top, rgba(var(--kliff-accent-secondary-rgb), 0) 0%, rgba(var(--kliff-accent-secondary-rgb), 0.6) 70%, rgba(var(--kliff-accent-secondary-rgb), 0.0) 100% );
+}
+.jet-bottom {
+    bottom: 0;
+    transform: translateX(-50%) scaleY(1) rotate(0deg); /* Corrected for bottom jet */
+    background: linear-gradient( to bottom, rgba(var(--kliff-accent-secondary-rgb), 0) 0%, rgba(var(--kliff-accent-secondary-rgb), 0.6) 70%, rgba(var(--kliff-accent-secondary-rgb), 0.0) 100% );
 }
 
-/* Helper for RGB values from CSS vars - will be set by JS or use defaults */
-:root {
-    --glow-color-dark-rgb: 0, 255, 255;
-    --accent-color-dark-rgb: 255, 0, 255;
-    --secondary-color-dark-rgb: 13, 13, 43;
-    --primary-color-dark-rgb: 2, 0, 26;
+@keyframes fadeInJet {
+    from { opacity: 0; transform: translateX(-50%) scaleY(0.2); }
+    to { opacity: 0.6; transform: translateX(-50%) scaleY(1); }
+}
+@keyframes pulse-jets {
+    0% { opacity: 0.4; filter: blur(6px) brightness(0.8); transform: translateX(-50%) scaleY(0.95) }
+    100% { opacity: 0.7; filter: blur(4px) brightness(1.2); transform: translateX(-50%) scaleY(1.05) }
+}
+@keyframes sway-jets {
+    0% { transform: translateX(-50%) skewX(-2deg); }
+    50% { transform: translateX(-50%) skewX(0deg); }
+    100% { transform: translateX(-50%) skewX(2deg); }
 }
 
 
-@keyframes spin-accretion {
-    from { transform: translate(-50%, -50%) rotate(0deg); }
-    to { transform: translate(-50%, -50%) rotate(360deg); }
+.starfield-background {
+    position: absolute;
+    top:0; left:0; right:0; bottom:0;
+    width:100%; height:100%;
+    background-image:
+        url(https://www.script-tutorials.com/demos/360/images/stars.png), /* Primary stars */
+        url(https://www.transparenttextures.com/patterns/stardust.png);   /* Subtle dust texture */
+    background-repeat: repeat, repeat;
+    background-position: 0 0, 0 0;
+    animation: move-starfield 250s linear infinite,
+               twinkle-starfield 5s infinite alternate;
+    z-index: -10; /* Deepest layer */
+    opacity: 0.7;
 }
-@keyframes flicker-accretion {
-    0%, 100% { opacity: 0.7; }
-    50% { opacity: 1; }
-}
-
-.stars, .twinkling {
-  position:absolute; /* Changed from fixed for container */
-  top:0; left:0; right:0; bottom:0;
-  width:100%; height:100%;
-  display:block;
-}
-.stars {
-  background:#000 url(https://www.script-tutorials.com/demos/360/images/stars.png) repeat top center;
-  z-index: -2; /* Behind accretion disk */
-  animation: move-stars 200s linear infinite;
-}
-.twinkling{
-  background:transparent url(https://www.script-tutorials.com/demos/360/images/twinkling.png) repeat top center;
-  animation:move-twink-back 100s linear infinite;
-  z-index: -1; /* On top of stars */
-}
-html.light-mode .stars, html.light-mode .twinkling {
-    display: none;
+html.kliff-light-theme .starfield-background {
+    background-image: url(https://www.transparenttextures.com/patterns/light-paper-fibers.png);
+    opacity: 0.1;
+    animation: none; /* Stars not fitting for light theme */
 }
 
-@keyframes move-stars {
-    from {background-position:0 0;}
-    to {background-position:-5000px 2500px;}
+@keyframes move-starfield {
+    from { background-position: 0 0, 0 0; }
+    to { background-position: -10000px 5000px, -500px 250px; } /* Different speeds */
 }
-@keyframes move-twink-back {
-    from {background-position:0 0;}
-    to {background-position:-10000px 5000px;}
+@keyframes twinkle-starfield {
+    0% { opacity: 0.6; }
+    100% { opacity: 0.8; }
 }
 
-/* --- Overlay Effects (Scanlines, Noise) --- */
-.overlay-effects {
+.deep-space-nebula {
+    position: absolute;
+    border-radius: 50%;
+    mix-blend-mode: screen; /* Or 'lighten' for different effect */
+    animation: drift-nebula 120s infinite alternate ease-in-out,
+               pulse-nebula-light 15s infinite alternate ease-in-out;
+    opacity: 0; /* Fades in */
+    animation-fill-mode: forwards;
+    animation-name: fadeInNebula, drift-nebula, pulse-nebula-light;
+    animation-duration: 5s, 120s, 15s;
+    animation-timing-function: ease-out, ease-in-out, ease-in-out;
+}
+html.kliff-light-theme .deep-space-nebula { display: none; }
+
+.nebula-1 {
+    width: 60vw;
+    height: 70vh;
+    top: -10vh;
+    left: -20vw;
+    background: radial-gradient(ellipse at center,
+        rgba(var(--kliff-accent-primary-rgb), 0.2) 0%,
+        rgba(var(--kliff-accent-tertiary-rgb, 125,0,255), 0.1) 40%,
+        transparent 70%
+    );
+    filter: blur(50px);
+    z-index: -9;
+    animation-delay: 2s, 2s, 2s; /* Stagger fade-in and movements */
+}
+.nebula-2 {
+    width: 70vw;
+    height: 60vh;
+    bottom: -15vh;
+    right: -25vw;
+    background: radial-gradient(ellipse at center,
+        rgba(var(--kliff-accent-secondary-rgb), 0.25) 0%,
+        rgba(var(--kliff-accent-tertiary-rgb, 125,0,255), 0.15) 35%,
+        transparent 65%
+    );
+    filter: blur(60px);
+    z-index: -9;
+    animation-delay: 3s, 3s, 3s; /* Stagger fade-in and movements */
+}
+
+@keyframes fadeInNebula {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+@keyframes drift-nebula {
+    0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+    50% { transform: translate(20px, -15px) rotate(5deg) scale(1.05); }
+    100% { transform: translate(-10px, 10px) rotate(-3deg) scale(0.95); }
+}
+@keyframes pulse-nebula-light {
+    0% { filter: blur(50px) brightness(0.8); }
+    100% { filter: blur(55px) brightness(1.1); }
+}
+
+
+/*-----------------------------------------------------------------------------
+  2.  GLOBAL OVERLAY EFFECTS
+      - Scanlines, Static Noise, Vignette
+-----------------------------------------------------------------------------*/
+
+.global-overlay-effects {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none;
-    z-index: 10; /* Above content, below modals/popups */
+    pointer-events: none; /* Allows clicks through */
+    z-index: 50; /* Above most content, below modals */
+    overflow: hidden; /* Ensure pseudo-elements don't cause scroll */
 }
-html.light-mode .overlay-effects { display: none; }
 
-.overlay-effects::before { /* Scanlines */
-    content: "";
+.scanlines-effect {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
     background: repeating-linear-gradient(
         0deg,
-        rgba(0,0,0, var(--scanline-opacity)),
-        rgba(0,0,0, var(--scanline-opacity)) 1px,
+        rgba(var(--kliff-primary-bg-rgb, 1, 0, 16), var(--kliff-scanline-opacity)) 0px,
+        rgba(var(--kliff-primary-bg-rgb, 1, 0, 16), var(--kliff-scanline-opacity)) 1px,
         transparent 1px,
-        transparent 4px /* Thicker scanlines */
+        transparent 4px
     );
-    animation: scanline-scroll 20s linear infinite;
+    animation: scanline-move 30s linear infinite, scanline-flicker 0.2s infinite alternate;
+    opacity: 0.8; /* Base opacity for scanlines */
 }
-@keyframes scanline-scroll {
-    0% { background-position-y: 0; }
-    100% { background-position-y: 200px; } /* Adjust for desired speed */
+html.kliff-light-theme .scanlines-effect {
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(var(--kliff-primary-bg-rgb, 244,248,255), var(--kliff-scanline-opacity)) 0px,
+        rgba(var(--kliff-primary-bg-rgb, 244,248,255), var(--kliff-scanline-opacity)) 1px,
+        transparent 1px,
+        transparent 4px
+    );
 }
 
-.overlay-effects::after { /* Noise */
-    content: "";
+@keyframes scanline-move {
+    0% { background-position-y: 0; }
+    100% { background-position-y: 100px; } /* Adjust for speed */
+}
+@keyframes scanline-flicker {
+    from { opacity: 0.7; }
+    to { opacity: 0.9; }
+}
+
+.static-noise-effect {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    opacity: var(--noise-opacity);
-    animation: noise-flicker 0.2s infinite;
-}
-@keyframes noise-flicker {
-    0%, 100% { opacity: calc(var(--noise-opacity) * 0.8); }
-    50% { opacity: var(--noise-opacity); }
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: var(--kliff-noise-opacity);
+    animation: noise-animation 0.15s steps(1) infinite;
 }
 
-/* --- General Layout & Typography --- */
-.container {
-    max-width: 800px;
+@keyframes noise-animation {
+  0% { transform: translate(2px, 1px); }
+  10% { transform: translate(-1px, -2px); }
+  20% { transform: translate(-3px, 0px); }
+  30% { transform: translate(0px, 2px); }
+  40% { transform: translate(-1px, -1px); }
+  50% { transform: translate(3px, 2px); }
+  60% { transform: translate(-3px, 1px); }
+  70% { transform: translate(0px, -2px); }
+  80% { transform: translate(1px, -3px); }
+  90% { transform: translate(2px, 3px); }
+  100% { transform: translate(0px, 0px); }
+}
+
+
+.vignette-effect {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    box-shadow: inset 0 0 15vw 5vw rgba(var(--kliff-primary-bg-rgb, 1,0,16), var(--kliff-vignette-intensity));
+    transition: box-shadow var(--kliff-transition-duration-long);
+}
+html.kliff-light-theme .vignette-effect {
+    box-shadow: inset 0 0 15vw 5vw rgba(var(--kliff-primary-bg-rgb, 244,248,255), var(--kliff-vignette-intensity));
+}
+
+/* style.css - Kliff Search Engine - Expanded Edition - PART 2 */
+
+/*-----------------------------------------------------------------------------
+  3.  LAYOUT & MAIN WRAPPER
+      - kliff-main-wrapper structure
+      - Header, Main Content, Footer flow
+-----------------------------------------------------------------------------*/
+
+.kliff-main-wrapper {
+    max-width: 1200px; /* Wider max-width for more content */
+    width: 95%; /* Percentage based width for responsiveness */
     margin: 0 auto;
-    padding: 20px;
-    text-align: center;
-    position: relative;
+    padding: var(--kliff-spacing-md) var(--kliff-spacing-lg);
+    position: relative; /* For z-indexing content above overlays if needed */
     z-index: 1;
-    flex-grow: 1;
+    flex-grow: 1; /* For footer pushing */
+    display: flex; /* For footer pushing */
+    flex-direction: column; /* For footer pushing */
+    min-height: 100vh; /* Ensure wrapper itself tries to fill viewport height */
+}
+
+/* Specific wrapper for homepage centering if needed */
+#home-wrapper .kliff-main-content {
     display: flex;
     flex-direction: column;
+    justify-content: center; /* Vertically center search on homepage */
+    flex-grow: 1; /* Allow main content to take available space */
 }
-#home-container { justify-content: center; }
 
-header {
-    margin-bottom: 40px;
-    position: relative;
-}
-.results-header {
+
+/*-----------------------------------------------------------------------------
+  4.  HEADER STYLING
+      - kliff-main-header, kliff-results-header
+      - Logo, Tagline, Header Controls (Theme Toggle)
+-----------------------------------------------------------------------------*/
+
+.kliff-main-header,
+.kliff-results-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-    gap: 15px; /* Spacing between items */
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(var(--glow-color-rgb, 0, 255, 255), 0.2);
-}
-html.light-mode .results-header {
-    border-bottom: 1px solid rgba(var(--glow-color-light-rgb, 0, 123, 255), 0.2);
+    padding: var(--kliff-spacing-lg) 0;
+    margin-bottom: var(--kliff-spacing-xl);
+    border-bottom: 2px solid var(--kliff-border-color);
+    box-shadow: 0 5px 15px -5px rgba(var(--kliff-accent-primary-rgb), 0.1);
+    position: relative; /* For pseudo-elements or complex positioning */
 }
 
-.kliff-title {
-    font-family: var(--font-primary);
-    font-weight: 900; /* Bolder */
-    color: var(--text-color);
+.kliff-results-header {
+    gap: var(--kliff-spacing-md); /* Gap for items in results header */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.logo-container {
+    text-align: left; /* Default, override for homepage if needed */
+}
+#home-wrapper .logo-container {
+    text-align: center; /* Center logo on homepage */
+    margin: 0 auto var(--kliff-spacing-xxl); /* Center and push down content */
+    width: 100%;
+}
+
+
+.kliff-logo {
+    font-family: var(--kliff-font-primary);
+    font-weight: 900;
+    color: var(--kliff-text-primary);
     text-decoration: none;
-    text-shadow: 0 0 5px var(--glow-color), 0 0 10px var(--glow-color), 0 0 20px var(--accent-color);
+    letter-spacing: 1px;
+    line-height: 1;
+    text-shadow: 0 0 5px var(--kliff-shadow-glow),
+                 0 0 15px var(--kliff-shadow-glow),
+                 0 0 30px var(--kliff-shadow-accent),
+                 3px 3px 0px rgba(var(--kliff-accent-tertiary-rgb, 125,0,255), 0.3); /* 3Dish effect */
+    transition: text-shadow var(--kliff-transition-duration-medium), color var(--kliff-transition-duration-medium);
 }
-#home-container .kliff-title { font-size: clamp(3em, 10vw, 6em); }
-.results-header .kliff-title.small-title { font-size: clamp(1.8em, 5vw, 2.5em); }
+.kliff-logo:hover {
+    color: var(--kliff-accent-secondary);
+    text-shadow: 0 0 8px var(--kliff-shadow-glow),
+                 0 0 20px var(--kliff-shadow-glow),
+                 0 0 40px var(--kliff-shadow-accent),
+                 5px 5px 0px rgba(var(--kliff-accent-tertiary-rgb, 125,0,255), 0.5);
+}
+
+#home-wrapper .kliff-logo {
+    font-size: var(--kliff-font-size-logo);
+}
+.kliff-results-header .kliff-logo.small-logo {
+    font-size: var(--kliff-font-size-logo-small);
+    text-shadow: 0 0 3px var(--kliff-shadow-glow),
+                 0 0 10px var(--kliff-shadow-glow),
+                 0 0 20px var(--kliff-shadow-accent),
+                 2px 2px 0px rgba(var(--kliff-accent-tertiary-rgb, 125,0,255), 0.2);
+}
+.kliff-results-header .kliff-logo.small-logo:hover {
+    text-shadow: 0 0 5px var(--kliff-shadow-glow),
+                 0 0 15px var(--kliff-shadow-glow),
+                 0 0 30px var(--kliff-shadow-accent),
+                 3px 3px 0px rgba(var(--kliff-accent-tertiary-rgb, 125,0,255), 0.4);
+}
 
 
-/* GLITCH EFFECT for KLIFF title */
-.glitch {
+/* Glitch Effect for Logo */
+.glitch-effect {
     position: relative;
-    display: inline-block;
-    animation: glitch-skew 5s infinite alternate ease-in-out;
+    display: inline-block; /* Crucial for before/after positioning */
+    animation: glitch-main-skew 7s infinite alternate cubic-bezier(0.25, 0.1, 0.25, 1);
 }
-.glitch::before,
-.glitch::after {
-    content: attr(data-text);
+.glitch-effect::before,
+.glitch-effect::after {
+    content: attr(data-text-glitch);
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: var(--primary-color); /* Match body bg, needs to change with theme */
+    background: var(--kliff-primary-bg); /* Needs to match body bg for illusion */
     overflow: hidden;
-    clip-path: inset(50% 0 50% 0);
+    clip-path: inset(50% 0 50% 0); /* Default clip */
+    transition: background var(--kliff-transition-duration-medium); /* For theme change */
 }
-html.light-mode .glitch::before, html.light-mode .glitch::after {
-    background: var(--primary-color-light);
-}
-
-.glitch::before {
-    left: calc(var(--glitch-intensity) * -1);
-    text-shadow: calc(var(--glitch-intensity) * -0.5) 0 var(--accent-color);
-    animation: glitch-anim-1 2.5s infinite linear alternate-reverse;
-}
-.glitch::after {
-    left: var(--glitch-intensity);
-    text-shadow: calc(var(--glitch-intensity) * -0.5) 0 var(--glow-color), var(--glitch-intensity) var(--glitch-intensity) var(--accent-color);
-    animation: glitch-anim-2 3.5s infinite linear alternate-reverse;
+html.kliff-light-theme .glitch-effect::before,
+html.kliff-light-theme .glitch-effect::after {
+    background: var(--kliff-primary-bg);
 }
 
-@keyframes glitch-skew {
-    0% { transform: skewX(0deg); }
-    100% { transform: skewX(3deg); }
+.glitch-effect::before {
+    left: calc(var(--kliff-glitch-intensity) * -1.2);
+    text-shadow: calc(var(--kliff-glitch-intensity) * -0.8) 0 var(--kliff-accent-primary);
+    animation: glitch-anim-style1 3s infinite linear alternate-reverse;
+    animation-delay: 0.1s;
 }
-@keyframes glitch-anim-1 {
-    0% { clip-path: inset(40% 0 40% 0); transform: translate(-5px, 2px) skew(3deg); opacity: 0.8;}
-    25% { clip-path: inset(10% 0 75% 0); transform: translate(3px, -1px) skew(-2deg); opacity: 1;}
-    50% { clip-path: inset(60% 0 15% 0); transform: translate(-2px, 4px) skew(1deg); opacity: 0.7;}
-    75% { clip-path: inset(30% 0 50% 0); transform: translate(4px, -3px) skew(-3deg); opacity: 0.9;}
-    100% { clip-path: inset(50% 0 30% 0); transform: translate(-3px, 1px) skew(2deg); opacity: 0.8;}
+.glitch-effect::after {
+    left: var(--kliff-glitch-intensity);
+    text-shadow: calc(var(--kliff-glitch-intensity) * -0.8) 0 var(--kliff-accent-secondary),
+                 var(--kliff-glitch-intensity) var(--kliff-glitch-intensity) var(--kliff-accent-primary);
+    animation: glitch-anim-style2 2.5s infinite linear alternate-reverse;
+    animation-delay: 0.3s;
 }
-@keyframes glitch-anim-2 {
-    0% { clip-path: inset(70% 0 10% 0); transform: translate(4px, -3px) skew(-2deg); opacity: 0.9;}
-    25% { clip-path: inset(20% 0 60% 0); transform: translate(-2px, 2px) skew(3deg); opacity: 0.7;}
-    50% { clip-path: inset(45% 0 35% 0); transform: translate(3px, -1px) skew(-1deg); opacity: 1;}
-    75% { clip-path: inset(5% 0 80% 0); transform: translate(-4px, 3px) skew(2deg); opacity: 0.8;}
-    100% { clip-path: inset(65% 0 20% 0); transform: translate(2px, -2px) skew(-3deg); opacity: 0.9;}
+
+@keyframes glitch-main-skew {
+    0% { transform: skewX(-1deg) skewY(0.5deg); }
+    100% { transform: skewX(1.5deg) skewY(-0.8deg); }
+}
+@keyframes glitch-anim-style1 {
+    0%   { clip-path: inset(35% 0 45% 0); transform: translate(-4px, 1px) skew(2deg, -1deg); opacity: 0.85;}
+    20%  { clip-path: inset(5% 0 80% 0); transform: translate(2px, -2px) skew(-3deg, 1.5deg); opacity: 1;}
+    40%  { clip-path: inset(65% 0 10% 0); transform: translate(-3px, 3px) skew(1deg, -2deg); opacity: 0.7;}
+    60%  { clip-path: inset(25% 0 55% 0); transform: translate(3px, -2px) skew(-2deg, 2deg); opacity: 0.9;}
+    80%  { clip-path: inset(40% 0 30% 0); transform: translate(-1px, 0px) skew(0.5deg, -0.5deg); opacity: 0.75;}
+    100% { clip-path: inset(55% 0 25% 0); transform: translate(1px, 1px) skew(1.5deg, -1deg); opacity: 0.9;}
+}
+@keyframes glitch-anim-style2 {
+    0%   { clip-path: inset(75% 0 5% 0); transform: translate(3px, -4px) skew(-2.5deg, 2deg); opacity: 0.9;}
+    20%  { clip-path: inset(15% 0 65% 0); transform: translate(-3px, 1px) skew(3.5deg, -1deg); opacity: 0.75;}
+    40%  { clip-path: inset(50% 0 40% 0); transform: translate(1px, -2px) skew(-1.5deg, 1deg); opacity: 1;}
+    60%  { clip-path: inset(10% 0 70% 0); transform: translate(-2px, 3px) skew(2deg, -2.5deg); opacity: 0.8;}
+    80%  { clip-path: inset(60% 0 20% 0); transform: translate(0px, -1px) skew(-0.5deg, 0.8deg); opacity: 0.95;}
+    100% { clip-path: inset(30% 0 50% 0); transform: translate(2px, 0px) skew(-2deg, 1.2deg); opacity: 0.7;}
 }
 
 
-.tagline {
-    font-size: clamp(1em, 2.5vw, 1.3em);
-    color: var(--text-muted-color);
-    margin-top: -10px;
-    letter-spacing: 1px;
-    text-shadow: 0 0 3px var(--glow-color);
-    animation: text-flicker var(--flicker-speed) infinite alternate ease-in-out;
+.kliff-tagline {
+    font-family: var(--kliff-font-tertiary);
+    font-size: var(--kliff-font-size-large);
+    color: var(--kliff-text-secondary);
+    margin-top: var(--kliff-spacing-sm);
+    letter-spacing: 1.5px;
+    text-shadow: 0 0 2px var(--kliff-shadow-glow), 0 0 5px var(--kliff-text-secondary);
+    opacity: 0.9;
 }
-
-@keyframes text-flicker {
-    0%, 18%, 22%, 25%, 53%, 57%, 100% {
-        text-shadow:
-            0 0 2px var(--text-color),
-            0 0 5px var(--text-color),
-            0 0 10px var(--glow-color),
-            0 0 20px var(--glow-color);
+/* Animated Tagline Letters */
+.animated-tagline span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: reveal-letter 0.5s forwards cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+/* Stagger animation for each letter - JS will add these delays */
+@keyframes reveal-letter {
+    to {
         opacity: 1;
+        transform: translateY(0);
     }
-    20%, 24%, 55% { opacity: 0.7; text-shadow: none; }
 }
 
-/* --- Search Bar & Suggestions --- */
-.search-wrapper {
+
+.header-controls {
     display: flex;
-    margin: 30px auto;
-    max-width: 650px; /* Slightly wider */
-    border: 2px solid var(--accent-color);
-    border-radius: 50px;
-    overflow: hidden;
-    background-color: rgba(var(--secondary-color-dark-rgb, 13, 13, 43), 0.5); /* Semi-transparent bg */
-    box-shadow: 0 0 10px var(--shadow-color-accent), inset 0 0 8px var(--shadow-color);
-    transition: box-shadow 0.3s ease, border-color 0.3s ease;
-}
-html.light-mode .search-wrapper {
-    background-color: rgba(var(--secondary-color-light-rgb, 230, 230, 250), 0.7);
+    align-items: center;
+    gap: var(--kliff-spacing-md);
 }
 
-.search-wrapper:focus-within {
-    box-shadow: 0 0 20px var(--shadow-color), inset 0 0 12px var(--shadow-color-accent);
-    border-color: var(--glow-color);
-}
-
-#search-bar, #search-bar-results {
-    flex-grow: 1;
-    padding: 18px 28px; /* More padding */
-    font-size: 1.15em;
-    font-family: var(--font-secondary);
-    border: none;
+.kliff-button.icon-button {
     background: transparent;
-    color: var(--text-color);
-    outline: none;
-}
-#search-bar::placeholder, #search-bar-results::placeholder {
-    color: var(--text-muted-color);
-    opacity: 0.8;
-    font-style: italic;
-}
-
-.search-button {
-    background-color: var(--accent-color);
-    color: var(--primary-color-dark); /* Contrast for dark theme button text */
-    border: none;
-    padding: 0 28px;
-    cursor: pointer;
-    font-size: 1.2em;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    border: 2px solid var(--kliff-border-color);
+    color: var(--kliff-text-secondary);
+    padding: var(--kliff-spacing-sm); /* Adjusted for icon buttons */
+    width: 48px; /* Fixed size for icon buttons */
+    height: 48px;
+    border-radius: 50%; /* Circular */
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all var(--kliff-transition-duration-medium) var(--kliff-transition-timing-function);
+    box-shadow: 0 0 0px 0px var(--kliff-shadow-glow); /* Initial no shadow */
 }
-html.light-mode .search-button {
-    color: #fff; /* Ensure contrast in light mode */
+.kliff-button.icon-button:hover {
+    color: var(--kliff-accent-secondary);
+    border-color: var(--kliff-accent-secondary);
+    transform: translateY(-2px) rotate(10deg) scale(1.05);
+    box-shadow: 0 0 15px 3px var(--kliff-shadow-glow);
 }
-.search-button svg {
-    display: block; width: 24px; height: 24px;
-    filter: drop-shadow(0 0 2px var(--primary-color));
+.kliff-button.icon-button:active {
+    transform: translateY(0px) rotate(0deg) scale(0.95);
+    box-shadow: inset 0 0 10px 2px var(--kliff-shadow-accent);
 }
-.search-button:hover {
-    background-color: var(--glow-color);
-    transform: scale(1.05);
-    box-shadow: 0 0 10px var(--glow-color);
+.theme-icon-svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+    transition: transform var(--kliff-transition-duration-medium);
 }
-.search-button:active {
-    transform: scale(0.98);
-    box-shadow: none;
-}
-
-#suggestions-box {
-    background-color: rgba(var(--secondary-color-dark-rgb, 13, 13, 43), 0.95);
-    border: 1px solid var(--accent-color);
-    border-top: none;
-    border-radius: 0 0 15px 15px; /* Softer radius */
-    margin: -31px auto 0;
-    max-width: calc(650px - 4px);
-    text-align: left;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
-    max-height: 220px;
-    overflow-y: auto;
-    position: relative;
-    z-index: 20; /* Above overlay effects */
-    backdrop-filter: blur(3px); /* Frosted glass effect */
-}
-html.light-mode #suggestions-box {
-    background-color: rgba(var(--secondary-color-light-rgb, 230, 230, 250), 0.97);
-    border-color: var(--accent-color);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+.kliff-button.icon-button:hover .theme-icon-svg {
+    transform: scale(1.1) rotate(-15deg);
 }
 
-#suggestions-box div {
-    padding: 14px 22px;
+/*-----------------------------------------------------------------------------
+  5.  MAIN CONTENT AREA & SEARCH SECTION
+      - kliff-main-content structure
+      - Search form, input field, submit button
+      - Suggestions container
+      - Voice search elements
+-----------------------------------------------------------------------------*/
+
+.kliff-main-content {
+    padding: var(--kliff-spacing-xl) 0;
+    flex-grow: 1; /* Critical for pushing footer down */
+}
+
+.results-page-content {
+    padding-top: var(--kliff-spacing-md); /* Less top padding on results */
+}
+
+.search-section {
+    margin-bottom: var(--kliff-spacing-xxl);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.search-form-control {
+    width: 100%;
+    max-width: 750px; /* Wider search bar */
+    margin: 0 auto;
+    position: relative; /* For suggestions box positioning */
+}
+.results-page-form {
+    flex-grow: 1; /* Allow it to take space in header */
+    max-width: 600px; /* Slightly smaller on results page */
+}
+
+.search-input-group {
+    display: flex;
+    align-items: stretch; /* Make buttons same height as input */
+    border: 3px solid var(--kliff-accent-primary);
+    border-radius: var(--kliff-border-radius-pill);
+    background-color: rgba(var(--kliff-secondary-bg-rgb, 10, 8, 34), 0.6);
+    backdrop-filter: blur(5px);
+    padding: var(--kliff-spacing-xs); /* Padding around input and buttons */
+    box-shadow: 0 0 10px 0px var(--kliff-shadow-accent),
+                inset 0 0 8px 0px var(--kliff-shadow-glow),
+                0 0 25px 5px rgba(0,0,0,0.3); /* Outer dark shadow */
+    transition: all var(--kliff-transition-duration-medium) var(--kliff-transition-timing-function);
+    position: relative; /* For z-index if needed */
+    z-index: 2; /* Above background elements but below overlays if input is focused */
+}
+.search-input-group:focus-within {
+    border-color: var(--kliff-accent-secondary);
+    background-color: rgba(var(--kliff-secondary-bg-rgb, 10, 8, 34), 0.8);
+    box-shadow: 0 0 20px 3px var(--kliff-shadow-glow),
+                inset 0 0 12px 2px var(--kliff-shadow-accent),
+                0 0 35px 8px rgba(0,0,0,0.2);
+}
+html.kliff-light-theme .search-input-group {
+    background-color: rgba(var(--kliff-secondary-bg-rgb, 232,238,247), 0.7);
+}
+html.kliff-light-theme .search-input-group:focus-within {
+    background-color: rgba(var(--kliff-secondary-bg-rgb, 232,238,247), 0.9);
+}
+
+.search-field {
+    flex-grow: 1;
+    padding: var(--kliff-spacing-md) var(--kliff-spacing-lg);
+    font-size: var(--kliff-font-size-large);
+    font-family: var(--kliff-font-secondary);
+    color: var(--kliff-text-primary);
+    background: transparent;
+    border: none;
+    outline: none;
+    border-radius: calc(var(--kliff-border-radius-pill) - var(--kliff-spacing-xs)); /* Inner radius */
+    caret-color: var(--kliff-accent-secondary);
+}
+.search-field::placeholder {
+    color: var(--kliff-text-secondary);
+    opacity: 0.7;
+    font-style: italic;
+    transition: opacity var(--kliff-transition-duration-short);
+}
+.search-field:focus::placeholder {
+    opacity: 0.4;
+}
+/* Clear button for search input (Webkit/Edge) */
+.search-field::-webkit-search-decoration,
+.search-field::-webkit-search-cancel-button,
+.search-field::-webkit-search-results-button,
+.search-field::-webkit-search-results-decoration {
+  -webkit-appearance:none;
+  /* Add custom clear button if desired via JS and styled here */
+}
+
+
+.kliff-button.voice-button,
+.kliff-button.search-submit-button {
+    background-color: transparent; /* Button itself is transparent */
+    color: var(--kliff-accent-primary);
+    border: none;
+    padding: 0 var(--kliff-spacing-md);
+    margin: 0 var(--kliff-spacing-xs);
+    border-radius: calc(var(--kliff-border-radius-pill) - var(--kliff-spacing-xs) - var(--kliff-spacing-xs)); /* Ensure it fits well */
     cursor: pointer;
-    color: var(--text-color);
-    transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease-out;
-    border-bottom: 1px dashed rgba(var(--link-color-rgb, 179, 146, 255), 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color var(--kliff-transition-duration-short), transform var(--kliff-transition-duration-short);
 }
-html.light-mode #suggestions-box div {
-    border-bottom-color: rgba(var(--link-color-light-rgb, 106, 13, 173), 0.3);
+.kliff-button.voice-button svg,
+.kliff-button.search-submit-button svg {
+    width: 26px;
+    height: 26px;
+    fill: currentColor;
+    filter: drop-shadow(0 0 3px currentColor);
 }
 
-#suggestions-box div:last-child { border-bottom: none; }
-#suggestions-box div:hover, #suggestions-box div.selected {
-    background-color: var(--accent-color);
-    color: var(--primary-color-dark); /* Text color on hover for dark mode */
+.kliff-button.voice-button:hover,
+.kliff-button.search-submit-button:hover {
+    color: var(--kliff-accent-secondary);
+    transform: scale(1.1);
+}
+.kliff-button.voice-button:active,
+.kliff-button.search-submit-button:active {
+    transform: scale(0.95);
+    color: var(--kliff-text-link-hover);
+}
+
+.kliff-button.search-submit-button {
+    background-color: var(--kliff-accent-primary); /* Submit button has a fill */
+    color: var(--kliff-primary-bg); /* Text color for contrast */
+    padding: var(--kliff-spacing-sm) var(--kliff-spacing-lg); /* More distinct padding */
+    margin-left: var(--kliff-spacing-sm); /* Space it from voice button */
+}
+html.kliff-light-theme .kliff-button.search-submit-button {
+    color: var(--kliff-color-text-primary-light); /* Dark text on light accent */
+}
+.kliff-button.search-submit-button:hover {
+    background-color: var(--kliff-accent-secondary);
+    color: var(--kliff-primary-bg);
+    box-shadow: 0 0 10px var(--kliff-shadow-glow);
+}
+
+
+.suggestions-container {
+    background-color: rgba(var(--kliff-tertiary-bg-rgb, 20, 16, 53), 0.97); /* Use RGB var or default */
+    border: 2px solid var(--kliff-border-color);
+    border-top: none;
+    border-radius: 0 0 var(--kliff-border-radius-lg) var(--kliff-border-radius-lg);
+    margin: -3px auto 0; /* Slight overlap */
+    max-width: calc(100% - 6px); /* Match search bar width considering borders */
+    text-align: left;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.5), 0 0 15px var(--kliff-shadow-accent);
+    max-height: 300px; /* More space for suggestions */
+    overflow-y: auto;
+    position: absolute; /* Relative to .search-form-control */
+    width: 100%; /* Take full width of parent */
+    z-index: 100; /* Above other elements */
+    backdrop-filter: blur(8px) saturate(150%); /* Frosted glass with more saturation */
+    display: none; /* Hidden by default, JS controls visibility */
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity var(--kliff-transition-duration-medium) var(--kliff-transition-timing-function),
+                transform var(--kliff-transition-duration-medium) var(--kliff-transition-timing-function);
+}
+.suggestions-container.visible { /* Class added by JS */
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+html.kliff-light-theme .suggestions-container {
+    background-color: rgba(var(--kliff-tertiary-bg-rgb, 255, 255, 255), 0.97);
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.2), 0 0 15px var(--kliff-shadow-accent);
+}
+
+.suggestions-container::-webkit-scrollbar {
+    width: 8px;
+}
+.suggestions-container::-webkit-scrollbar-track {
+    background: transparent; /* Keep it clean */
+}
+.suggestions-container::-webkit-scrollbar-thumb {
+    background-color: var(--kliff-accent-tertiary);
+    border-radius: var(--kliff-border-radius-pill);
+}
+
+.suggestion-item {
+    padding: var(--kliff-spacing-md) var(--kliff-spacing-lg);
+    cursor: pointer;
+    color: var(--kliff-text-primary);
+    border-bottom: 1px dashed rgba(var(--kliff-accent-secondary-rgb), 0.2);
+    transition: background-color var(--kliff-transition-duration-short),
+                color var(--kliff-transition-duration-short),
+                transform var(--kliff-transition-duration-short) cubic-bezier(0.22, 1, 0.36, 1),
+                border-left-color var(--kliff-transition-duration-short);
+    font-size: var(--kliff-font-size-medium);
+    border-left: 4px solid transparent; /* For hover/selected indication */
+    position: relative; /* For pseudo elements */
+}
+.suggestion-item:last-child {
+    border-bottom: none;
+    border-radius: 0 0 calc(var(--kliff-border-radius-lg) - 2px) calc(var(--kliff-border-radius-lg) - 2px); /* Match container */
+}
+.suggestion-item:hover,
+.suggestion-item.selected-suggestion { /* Class from JS for keyboard nav */
+    background-color: var(--kliff-accent-primary);
+    color: var(--kliff-primary-bg); /* High contrast text */
+    transform: translateX(8px) scale(1.01);
+    border-left-color: var(--kliff-accent-secondary);
+    box-shadow: 5px 0 10px -5px var(--kliff-shadow-accent);
+}
+html.kliff-light-theme .suggestion-item:hover,
+html.kliff-light-theme .suggestion-item.selected-suggestion {
+    color: #fff; /* Ensure white text on light theme hover */
+}
+
+.suggestion-item strong { /* For highlighting matched part of suggestion */
+    color: var(--kliff-accent-secondary);
+    font-weight: bold;
+}
+.suggestion-item:hover strong,
+.suggestion-item.selected-suggestion strong {
+    color: var(--kliff-accent-tertiary); /* Different highlight on hover */
+}
+
+
+.voice-status {
+    font-size: var(--kliff-font-size-small);
+    color: var(--kliff-text-secondary);
+    margin-top: var(--kliff-spacing-md);
+    min-height: 1.5em; /* Reserve space to prevent layout shift */
+    text-align: center;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity var(--kliff-transition-duration-medium), transform var(--kliff-transition-duration-medium);
+}
+.voice-status.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+.voice-status.listening {
+    color: var(--kliff-accent-secondary);
+    text-shadow: 0 0 5px var(--kliff-shadow-glow);
+}
+.voice-status.error {
+    color: var(--kliff-color-accent-primary-dark); /* Or a specific error color */
+}
+
+
+/* Placeholder for Tools Section on Homepage */
+.tools-section-placeholder {
+    margin-top: var(--kliff-spacing-xxl);
+    padding: var(--kliff-spacing-xl);
+    border: 2px dashed var(--kliff-border-color);
+    border-radius: var(--kliff-border-radius-lg);
+    text-align: center;
+    background-color: rgba(var(--kliff-secondary-bg-rgb), 0.3);
+}
+.tools-section-placeholder h2 {
+    font-family: var(--kliff-font-primary);
+    color: var(--kliff-text-secondary);
+    margin-bottom: var(--kliff-spacing-lg);
+}
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--kliff-spacing-md);
+}
+.tool-item-placeholder {
+    padding: var(--kliff-spacing-md);
+    background-color: rgba(var(--kliff-tertiary-bg-rgb), 0.5);
+    border: 1px solid var(--kliff-border-color);
+    border-radius: var(--kliff-border-radius-md);
+    color: var(--kliff-text-secondary);
+    font-family: var(--kliff-font-secondary);
+}
+
+/* style.css - Kliff Search Engine - Expanded Edition - PART 3 */
+
+/*-----------------------------------------------------------------------------
+  6.  RESULTS PAGE SPECIFIC STYLING
+      - Results summary bar, query term display
+      - Filter controls placeholder
+      - AI Answer Box placeholder
+      - Search results list and individual items
+      - Skeleton loader for results
+-----------------------------------------------------------------------------*/
+
+.results-summary-bar {
+    display: flex;
+    flex-direction: column; /* Stack on small screens */
+    justify-content: space-between;
+    align-items: center; /* Center items when stacked */
+    gap: var(--kliff-spacing-md);
+    padding: var(--kliff-spacing-md) 0;
+    margin-bottom: var(--kliff-spacing-xl);
+    border-bottom: 1px solid var(--kliff-border-color);
+}
+@media (min-width: 768px) { /* Row layout on larger screens */
+    .results-summary-bar {
+        flex-direction: row;
+    }
+}
+
+#results-info-statement {
+    font-size: var(--kliff-font-size-medium);
+    color: var(--kliff-text-secondary);
+    text-align: center; /* Center on small screens */
+}
+@media (min-width: 768px) {
+    #results-info-statement {
+        text-align: left;
+    }
+}
+#results-info-statement #searched-query-term {
+    color: var(--kliff-accent-primary);
+    font-weight: 700; /* Use font-weight instead of normal */
+    font-family: var(--kliff-font-primary);
+    padding: 0 var(--kliff-spacing-xs);
+    background-color: var(--kliff-highlight-bg);
+    border-radius: var(--kliff-border-radius-sm);
+}
+
+
+.filter-controls-placeholder {
+    display: flex;
+    gap: var(--kliff-spacing-sm);
+    flex-wrap: wrap; /* Allow filters to wrap */
+    justify-content: center; /* Center filters on small screens */
+}
+@media (min-width: 768px) {
+    .filter-controls-placeholder {
+        justify-content: flex-end; /* Align to right on larger screens */
+    }
+}
+.kliff-button.filter-button {
+    font-size: var(--kliff-font-size-small);
+    padding: var(--kliff-spacing-sm) var(--kliff-spacing-md);
+    border: 1px solid var(--kliff-border-color);
+    border-radius: var(--kliff-border-radius-md);
+    background-color: rgba(var(--kliff-tertiary-bg-rgb), 0.5);
+    color: var(--kliff-text-secondary);
+    transition: all var(--kliff-transition-duration-short);
+}
+.kliff-button.filter-button:hover,
+.kliff-button.filter-button.active-filter { /* 'active-filter' class by JS */
+    background-color: var(--kliff-accent-secondary);
+    color: var(--kliff-primary-bg);
+    border-color: var(--kliff-accent-secondary);
+    box-shadow: 0 0 8px var(--kliff-shadow-glow);
+}
+html.kliff-light-theme .kliff-button.filter-button:hover,
+html.kliff-light-theme .kliff-button.filter-button.active-filter {
+    color: #fff;
+}
+
+/* AI Answer Box Placeholder Styling */
+.ai-answer-box {
+    background-color: rgba(var(--kliff-secondary-bg-rgb), 0.4);
+    border: 2px solid var(--kliff-accent-tertiary);
+    border-radius: var(--kliff-border-radius-lg);
+    padding: var(--kliff-spacing-lg);
+    margin-bottom: var(--kliff-spacing-xl);
+    box-shadow: 0 5px 20px -5px rgba(var(--kliff-accent-tertiary-rgb, 125,0,255), 0.3),
+                inset 0 0 15px rgba(var(--kliff-accent-tertiary-rgb, 125,0,255), 0.1);
+    backdrop-filter: blur(3px);
+    animation: fadeInAndExpand 0.7s var(--kliff-transition-timing-function) forwards;
+    opacity: 0; /* Start hidden for animation */
+}
+@keyframes fadeInAndExpand {
+    from { opacity: 0; transform: scale(0.95) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.ai-answer-title {
+    font-family: var(--kliff-font-primary);
+    font-size: var(--kliff-font-size-xl);
+    color: var(--kliff-accent-tertiary);
+    margin-bottom: var(--kliff-spacing-md);
+    text-align: center;
+    letter-spacing: 1px;
+    text-shadow: 0 0 5px var(--kliff-accent-tertiary);
+}
+.ai-answer-content p {
+    font-size: var(--kliff-font-size-medium);
+    line-height: 1.7;
+    color: var(--kliff-text-primary);
+    margin-bottom: var(--kliff-spacing-md);
+}
+.ai-answer-content p::before { /* Decorative element */
+    content: "✧ ";
+    color: var(--kliff-accent-secondary);
+    font-weight: bold;
+}
+
+.related-queries-placeholder {
+    margin-top: var(--kliff-spacing-lg);
+    padding-top: var(--kliff-spacing-md);
+    border-top: 1px dashed rgba(var(--kliff-accent-tertiary-rgb, 125,0,255), 0.3);
+}
+.related-queries-placeholder h3 {
+    font-family: var(--kliff-font-secondary);
+    font-size: var(--kliff-font-size-medium);
+    color: var(--kliff-text-secondary);
+    margin-bottom: var(--kliff-spacing-sm);
+}
+.related-queries-placeholder ul {
+    list-style: none;
+    padding-left: 0;
+}
+.related-queries-placeholder li a {
+    color: var(--kliff-text-link);
+    text-decoration: none;
+    padding: var(--kliff-spacing-xs) 0;
+    display: inline-block;
+    transition: color var(--kliff-transition-duration-short), transform var(--kliff-transition-duration-short);
+}
+.related-queries-placeholder li a:hover {
+    color: var(--kliff-text-link-hover);
+    text-decoration: underline;
     transform: translateX(5px);
 }
-html.light-mode #suggestions-box div:hover, html.light-mode #suggestions-box div.selected {
-    color: #fff; /* Text color on hover for light mode */
+.related-queries-placeholder li a::before {
+    content: "🌌 "; /* Cosmic bullet */
+    color: var(--kliff-accent-primary);
+    margin-right: var(--kliff-spacing-xs);
 }
 
 
-/* --- Results Page --- */
-#results-container { text-align: left; padding-top: 10px; }
-
-#search-query-display {
-    margin-bottom: 25px;
-    font-size: 1.15em;
-    color: var(--text-muted-color);
-}
-#search-query-display #query-term {
-    color: var(--accent-color);
-    font-weight: bold;
-    font-family: var(--font-primary);
+/* Search Results List & Items */
+.search-results-list {
+    display: grid;
+    gap: var(--kliff-spacing-xl); /* Space between result items */
 }
 
-#search-results-list .result-item {
-    background-color: rgba(var(--secondary-color-dark-rgb, 13, 13, 43), 0.6);
-    border: 1px solid var(--glow-color);
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 25px;
-    box-shadow: 0 0 15px rgba(var(--glow-color-rgb,0,255,255), 0.25);
-    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
-    position: relative;
-    overflow: hidden;
-    backdrop-filter: blur(2px);
+.result-item {
+    background-color: rgba(var(--kliff-tertiary-bg-rgb, 20, 16, 53), 0.7);
+    border: 1px solid var(--kliff-border-color);
+    border-left: 5px solid var(--kliff-accent-primary); /* Prominent left border */
+    border-radius: var(--kliff-border-radius-md);
+    padding: var(--kliff-spacing-lg);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3),
+                inset 0 0 10px rgba(var(--kliff-accent-primary-rgb), 0.05);
+    transition: transform var(--kliff-transition-duration-medium) var(--kliff-transition-timing-function),
+                box-shadow var(--kliff-transition-duration-medium) var(--kliff-transition-timing-function),
+                border-color var(--kliff-transition-duration-medium);
+    position: relative; /* For pseudo-elements and shimmer */
+    overflow: hidden; /* For shimmer effect */
+    backdrop-filter: blur(2px) brightness(110%); /* Subtle glass effect */
+    animation: slideInResult 0.5s var(--kliff-transition-timing-function) forwards;
+    opacity: 0; /* Start hidden for animation */
+    transform: translateX(-20px); /* Start off-screen for slide-in */
 }
-html.light-mode #search-results-list .result-item {
-    background-color: rgba(var(--secondary-color-light-rgb, 230, 230, 250), 0.85);
-    border-color: var(--glow-color);
-    box-shadow: 0 0 15px rgba(var(--glow-color-light-rgb, 0, 123, 255), 0.25);
+/* Stagger animation for result items using JS by adding inline style */
+@keyframes slideInResult {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
-#search-results-list .result-item::before { /* Shimmer effect */
+
+html.kliff-light-theme .result-item {
+    background-color: rgba(var(--kliff-tertiary-bg-rgb, 255, 255, 255), 0.85);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1),
+                inset 0 0 10px rgba(var(--kliff-accent-primary-rgb), 0.03);
+}
+
+.result-item:hover {
+    transform: translateY(-5px) scale(1.015); /* More pronounced hover effect */
+    box-shadow: 0 8px 25px -3px var(--kliff-shadow-accent),
+                0 0 15px var(--kliff-shadow-glow);
+    border-color: var(--kliff-accent-secondary);
+    border-left-color: var(--kliff-accent-secondary);
+}
+
+/* Shimmer effect on hover */
+.result-item::before {
     content: '';
     position: absolute;
     top: 0;
-    left: -150%;
-    width: 70%;
+    left: -150%; /* Start off-screen */
+    width: 60%; /* Width of the shimmer */
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(var(--glow-color-rgb,0,255,255),0.25), transparent);
-    transform: skewX(-25deg);
-    transition: left 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(var(--kliff-accent-secondary-rgb), 0.25) 50%, /* Peak of shimmer */
+        transparent
+    );
+    transform: skewX(-25deg); /* Angled shimmer */
+    transition: left 0.8s cubic-bezier(0.23, 1, 0.32, 1); /* Smooth sweep */
 }
-html.light-mode #search-results-list .result-item::before {
-    background: linear-gradient(90deg, transparent, rgba(var(--glow-color-light-rgb,0,123,255),0.2), transparent);
+.result-item:hover::before {
+    left: 150%; /* Sweep across */
 }
-#search-results-list .result-item:hover::before { left: 150%; }
-
-#search-results-list .result-item:hover {
-    transform: translateY(-6px) scale(1.02);
-    box-shadow: 0 8px 25px rgba(var(--glow-color-rgb,0,255,255), 0.4);
-}
-html.light-mode #search-results-list .result-item:hover {
-    box-shadow: 0 8px 25px rgba(var(--glow-color-light-rgb, 0, 123, 255), 0.35);
-}
-
-
-.result-item h3 { margin-top: 0; margin-bottom: 6px; }
-.result-item h3 a {
-    color: var(--link-color);
-    text-decoration: none;
-    font-family: var(--font-primary);
-    font-size: 1.5em;
-    transition: color 0.2s ease, text-shadow 0.2s ease;
-}
-.result-item h3 a:hover {
-    color: var(--glow-color);
-    text-decoration: underline;
-    text-shadow: 0 0 5px var(--glow-color);
-}
-.result-item .url {
-    font-size: 0.9em;
-    color: var(--text-muted-color);
-    margin-bottom: 10px;
-    word-break: break-all;
-    opacity: 0.8;
-}
-.result-item .snippet {
-    font-size: 1.05em;
-    line-height: 1.6;
-}
-.result-item .snippet strong {
-    color: var(--accent-color);
-    background-color: var(--highlight-bg);
-    padding: 1px 3px;
-    border-radius: 3px;
-    font-weight: 600; /* Bolder highlight */
+html.kliff-light-theme .result-item::before {
+     background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(var(--kliff-accent-secondary-rgb, 0, 123, 255), 0.15) 50%,
+        transparent
+    );
 }
 
-/* --- Pagination --- */
-#pagination { margin-top: 35px; text-align: center; }
-#pagination button {
-    background-color: transparent;
-    color: var(--link-color);
-    border: 2px solid var(--link-color);
-    padding: 10px 18px;
-    margin: 0 8px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-family: var(--font-primary);
+
+.result-item-title {
+    margin-top: 0;
+    margin-bottom: var(--kliff-spacing-sm);
+}
+.result-item-title a {
+    font-family: var(--kliff-font-primary);
+    font-size: var(--kliff-font-size-xl);
     font-weight: 700;
-    transition: background-color 0.2s, color 0.2s, transform 0.1s, box-shadow 0.2s;
+    color: var(--kliff-text-link);
+    text-decoration: none;
+    line-height: 1.3;
+    transition: color var(--kliff-transition-duration-short), text-shadow var(--kliff-transition-duration-short);
 }
-#pagination button:hover:not(:disabled) {
-    background-color: var(--link-color);
-    color: var(--primary-color); /* Text color for button in dark mode */
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(var(--link-color-rgb,179,146,255),0.4);
+.result-item-title a:hover {
+    color: var(--kliff-text-link-hover);
+    text-decoration: underline;
+    text-decoration-color: var(--kliff-accent-primary);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+    text-shadow: 0 0 8px var(--kliff-shadow-glow);
 }
-html.light-mode #pagination button:hover:not(:disabled) {
-    color: #fff; /* Text color for button in light mode */
-    box-shadow: 0 4px 8px rgba(var(--link-color-light-rgb,106,13,173),0.3);
+.result-item-title a:visited {
+    color: var(--kliff-accent-tertiary); /* Visited link color */
 }
-#pagination button:disabled { opacity: 0.4; cursor: not-allowed; }
-#pagination #page-info {
-    color: var(--text-muted-color);
-    margin: 0 12px;
-    font-size: 1.1em;
-    vertical-align: middle;
+html.kliff-light-theme .result-item-title a:visited {
+    color: #800080; /* Standard purple for visited links in light theme */
 }
 
-/* --- Footer --- */
-footer {
-    margin-top: auto; /* Pushes footer to bottom if content is short */
-    padding: 25px;
-    font-size: 0.9em;
-    color: var(--text-muted-color);
-    border-top: 1px dashed rgba(var(--link-color-rgb,179,146,255),0.25);
+.result-item-url {
+    font-size: var(--kliff-font-size-small);
+    color: var(--kliff-text-secondary);
+    margin-bottom: var(--kliff-spacing-md);
+    word-break: break-all; /* Prevent long URLs from breaking layout */
+    opacity: 0.85;
+    display: block; /* Ensure it takes its own line */
+    font-family: var(--kliff-font-secondary); /* Monospace for URL */
+}
+.result-item-url::before {
+    content: "↳ "; /* Link indicator */
+    color: var(--kliff-accent-primary);
+}
+
+.result-item-snippet {
+    font-size: var(--kliff-font-size-medium);
+    line-height: 1.65; /* Slightly more line height for readability */
+    color: var(--kliff-text-primary);
+    opacity: 0.9;
+}
+.result-item-snippet strong, /* Highlighted query terms from JS */
+.result-item-snippet .highlight { /* Alternative class for highlighting */
+    color: var(--kliff-accent-primary);
+    background-color: var(--kliff-highlight-bg);
+    padding: 1px 4px;
+    border-radius: var(--kliff-border-radius-sm);
+    font-weight: 700; /* Make highlights stand out */
+    box-shadow: 0 0 5px var(--kliff-highlight-bg);
+}
+html.kliff-light-theme .result-item-snippet strong,
+html.kliff-light-theme .result-item-snippet .highlight {
+    color: var(--kliff-accent-secondary); /* Different highlight color for light theme */
+}
+
+/* Meta information (conceptual, e.g., date, filetype) */
+.result-item-meta {
+    font-size: var(--kliff-font-size-small);
+    color: var(--kliff-text-secondary);
+    margin-top: var(--kliff-spacing-md);
+    opacity: 0.7;
+}
+.result-item-meta span {
+    margin-right: var(--kliff-spacing-md);
+}
+.result-item-meta span::before {
+    content: "◈ "; /* Meta data indicator */
+    color: var(--kliff-accent-tertiary);
+}
+
+
+/* Skeleton Loader for Results (shown while fetching) */
+.result-item-skeleton {
+    background-color: rgba(var(--kliff-tertiary-bg-rgb, 20, 16, 53), 0.5);
+    border: 1px solid var(--kliff-border-color);
+    border-left: 5px solid var(--kliff-text-secondary);
+    border-radius: var(--kliff-border-radius-md);
+    padding: var(--kliff-spacing-lg);
+    overflow: hidden; /* For animation */
+}
+.skeleton-title,
+.skeleton-url,
+.skeleton-snippet-line {
+    background: linear-gradient(
+        90deg,
+        rgba(var(--kliff-secondary-bg-rgb), 0.5) 25%,
+        rgba(var(--kliff-tertiary-bg-rgb), 0.7) 50%,
+        rgba(var(--kliff-secondary-bg-rgb), 0.5) 75%
+    );
+    background-size: 400% 100%; /* For wave animation */
+    animation: skeleton-loading-wave 1.5s infinite linear;
+    border-radius: var(--kliff-border-radius-sm);
+    margin-bottom: var(--kliff-spacing-sm);
+}
+html.kliff-light-theme .result-item-skeleton {
+    background-color: rgba(var(--kliff-tertiary-bg-rgb, 255,255,255), 0.7);
+}
+html.kliff-light-theme .skeleton-title,
+html.kliff-light-theme .skeleton-url,
+html.kliff-light-theme .skeleton-snippet-line {
+     background: linear-gradient(
+        90deg,
+        rgba(var(--kliff-secondary-bg-rgb, 232,238,247), 0.8) 25%,
+        rgba(var(--kliff-tertiary-bg-rgb, 255,255,255), 0.9) 50%,
+        rgba(var(--kliff-secondary-bg-rgb, 232,238,247), 0.8) 75%
+    );
+    background-size: 400% 100%;
+}
+
+
+.skeleton-title {
+    width: 60%;
+    height: var(--kliff-font-size-xl);
+    margin-bottom: var(--kliff-spacing-md);
+}
+.skeleton-url {
+    width: 40%;
+    height: var(--kliff-font-size-small);
+    margin-bottom: var(--kliff-spacing-lg);
+}
+.skeleton-snippet-line {
+    width: 100%;
+    height: var(--kliff-font-size-medium);
+}
+.skeleton-snippet-line.short {
+    width: 70%;
+}
+
+@keyframes skeleton-loading-wave {
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
+}
+
+/* Message for no results */
+.no-results-message {
     text-align: center;
+    padding: var(--kliff-spacing-xxl) var(--kliff-spacing-lg);
+    font-size: var(--kliff-font-size-large);
+    color: var(--kliff-text-secondary);
+    border: 2px dashed var(--kliff-border-color);
+    border-radius: var(--kliff-border-radius-lg);
+    background-color: rgba(var(--kliff-secondary-bg-rgb), 0.2);
+}
+.no-results-message strong {
+    color: var(--kliff-accent-primary);
+}
+.no-results-message::before {
+    content: "∅"; /* Empty set symbol */
+    display: block;
+    font-size: 3em;
+    color: var(--kliff-accent-tertiary);
+    margin-bottom: var(--kliff-spacing-md);
+    animation: pulse-empty-symbol 3s infinite ease-in-out;
+}
+@keyframes pulse-empty-symbol {
+    0%, 100% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.1); opacity: 1; }
+}
+
+/* style.css - Kliff Search Engine - Expanded Edition - PART 4 */
+
+/*-----------------------------------------------------------------------------
+  7.  PAGINATION STYLING
+      - .pagination-navigation container
+      - Previous/Next buttons, Page indicator
+-----------------------------------------------------------------------------*/
+
+.pagination-navigation {
+    margin-top: var(--kliff-spacing-xxl);
+    padding-top: var(--kliff-spacing-lg);
+    border-top: 1px solid var(--kliff-border-color);
+    display: flex;
+    justify-content: space-between; /* Spread out prev, indicator, next */
+    align-items: center;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    gap: var(--kliff-spacing-md);
+}
+
+.kliff-button.pagination-button {
+    font-family: var(--kliff-font-primary);
+    font-size: var(--kliff-font-size-medium);
+    font-weight: 700;
+    padding: var(--kliff-spacing-md) var(--kliff-spacing-lg);
+    border: 2px solid var(--kliff-accent-tertiary);
+    border-radius: var(--kliff-border-radius-md);
+    background-color: transparent;
+    color: var(--kliff-accent-tertiary);
+    text-transform: uppercase; /* More prominent */
+    letter-spacing: 1px;
+    transition: all var(--kliff-transition-duration-medium) var(--kliff-transition-timing-function);
+    box-shadow: 0 0 0px var(--kliff-shadow-glow); /* Initial no shadow */
+    position: relative; /* For pseudo elements */
+    overflow: hidden; /* For pseudo elements */
+}
+.kliff-button.pagination-button::before { /* Animated background fill on hover */
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background-color: var(--kliff-accent-tertiary);
+    transition: width var(--kliff-transition-duration-medium) var(--kliff-transition-timing-function);
+    z-index: -1; /* Behind text */
+    border-radius: calc(var(--kliff-border-radius-md) - 2px); /* Inner radius */
+}
+
+.kliff-button.pagination-button:not(:disabled):hover {
+    color: var(--kliff-primary-bg); /* Text color on hover */
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px -2px rgba(var(--kliff-accent-tertiary-rgb, 125,0,255), 0.4);
+}
+html.kliff-light-theme .kliff-button.pagination-button:not(:disabled):hover {
+    color: #fff;
+}
+.kliff-button.pagination-button:not(:disabled):hover::before {
+    width: 100%; /* Fill background */
+}
+
+.kliff-button.pagination-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: var(--kliff-text-secondary);
+    color: var(--kliff-text-secondary);
+    box-shadow: none;
+}
+.kliff-button.pagination-button:disabled::before {
+    width: 0; /* No fill for disabled */
+}
+
+.page-indicator {
+    font-size: var(--kliff-font-size-medium);
+    color: var(--kliff-text-secondary);
+    font-family: var(--kliff-font-secondary);
+    padding: 0 var(--kliff-spacing-md);
+    white-space: nowrap; /* Prevent breaking on small screens */
+}
+.page-indicator strong {
+    color: var(--kliff-text-primary);
+    font-weight: bold;
+}
+
+
+/*-----------------------------------------------------------------------------
+  8.  FOOTER STYLING
+      - .kliff-main-footer structure
+      - Footer navigation, Copyright, Disclaimer
+-----------------------------------------------------------------------------*/
+
+.kliff-main-footer {
+    margin-top: auto; /* Pushes footer to the bottom of the flex container */
+    padding: var(--kliff-spacing-xl) 0 var(--kliff-spacing-lg); /* More top padding */
+    border-top: 3px double var(--kliff-border-color); /* More distinct top border */
+    text-align: center;
+    color: var(--kliff-text-secondary);
+    background: linear-gradient(to top, rgba(var(--kliff-secondary-bg-rgb), 0.3), transparent 50%); /* Subtle gradient up */
+    position: relative; /* For potential decorative pseudo-elements */
+}
+.kliff-main-footer::before { /* Decorative top line */
+    content: '';
+    position: absolute;
+    top: -2px; /* Align with double border */
+    left: 20%;
+    width: 60%;
+    height: 1px;
+    background: linear-gradient(to right, 
+        transparent, 
+        var(--kliff-accent-primary) 30%, 
+        var(--kliff-accent-secondary) 70%, 
+        transparent
+    );
+    opacity: 0.7;
+    animation: footer-line-anim 10s infinite linear;
+}
+@keyframes footer-line-anim {
+    0% { background-position: -200% 0; } /* Start off-screen left */
+    100% { background-position: 200% 0; } /* End off-screen right */
+}
+
+
+.footer-nav {
+    margin-bottom: var(--kliff-spacing-lg);
+}
+.footer-nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap; /* Allow nav items to wrap */
+    justify-content: center;
+    gap: var(--kliff-spacing-sm) var(--kliff-spacing-lg); /* Row and column gap */
+}
+.footer-nav li a {
+    font-family: var(--kliff-font-secondary);
+    font-size: var(--kliff-font-size-small);
+    color: var(--kliff-text-link);
+    text-decoration: none;
+    padding: var(--kliff-spacing-xs) var(--kliff-spacing-sm);
+    border-radius: var(--kliff-border-radius-sm);
+    transition: color var(--kliff-transition-duration-short),
+                background-color var(--kliff-transition-duration-short),
+                text-shadow var(--kliff-transition-duration-short);
+    position: relative; /* For underline animation */
+}
+.footer-nav li a::after { /* Underline animation */
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    display: block;
+    margin-top: 3px;
+    right: 0;
+    background: var(--kliff-accent-secondary);
+    transition: width 0.3s ease, right 0.3s ease;
+}
+
+.footer-nav li a:hover {
+    color: var(--kliff-text-link-hover);
+    background-color: rgba(var(--kliff-accent-secondary-rgb), 0.1);
+    text-shadow: 0 0 3px var(--kliff-shadow-glow);
+}
+.footer-nav li a:hover::after {
+    width: 100%;
+    left: 0;
+    right: auto; /* Prevents conflict with width animation */
+}
+
+.footer-info {
+    margin-bottom: var(--kliff-spacing-md);
+}
+.copyright-text,
+.disclaimer-text {
+    font-size: var(--kliff-font-size-small);
+    line-height: 1.5;
+    margin-bottom: var(--kliff-spacing-xs);
     opacity: 0.8;
 }
-html.light-mode footer {
-    border-top-color: rgba(var(--link-color-light-rgb,106,13,173),0.2);
+.copyright-text #current-year-display,
+.copyright-text #current-year-display-results { /* For both pages */
+    font-weight: bold;
+    color: var(--kliff-text-primary);
+}
+.disclaimer-text {
+    font-style: italic;
+    opacity: 0.6;
 }
 
-/* --- Theme Toggle Button --- */
-#theme-toggle {
-    background: transparent;
-    border: 2px solid var(--text-muted-color);
-    color: var(--text-muted-color);
-    padding: 0; /* Let SVG size dictate */
-    border-radius: 50%;
-    cursor: pointer;
-    position: absolute;
-    top: 25px;
-    right: 25px;
-    z-index: 100;
-    width: 44px;
-    height: 44px;
+.social-links-placeholder {
+    margin-top: var(--kliff-spacing-md);
     display: flex;
+    justify-content: center;
+    gap: var(--kliff-spacing-md);
+}
+.social-links-placeholder a {
+    color: var(--kliff-text-secondary);
+    font-size: var(--kliff-font-size-xl); /* For icon placeholders */
+    transition: color var(--kliff-transition-duration-short), transform var(--kliff-transition-duration-short);
+}
+.social-links-placeholder a:hover {
+    color: var(--kliff-accent-primary);
+    transform: scale(1.2) rotate(5deg);
+}
+
+
+/*-----------------------------------------------------------------------------
+  9.  UTILITY CLASSES & MISCELLANEOUS ANIMATIONS
+      - .kliff-button base (if not already fully defined)
+      - Text highlighting, helper classes
+      - More complex hover effects or entry animations
+-----------------------------------------------------------------------------*/
+
+/* Base Kliff Button (can be extended) */
+.kliff-button {
+    display: inline-flex; /* For aligning icon and text */
     align-items: center;
     justify-content: center;
-    transition: border-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    padding: var(--kliff-spacing-md) var(--kliff-spacing-lg);
+    font-family: var(--kliff-font-primary);
+    font-size: var(--kliff-font-size-medium);
+    font-weight: 700;
+    color: var(--kliff-text-primary);
+    background-color: var(--kliff-accent-primary);
+    border: 2px solid var(--kliff-accent-primary);
+    border-radius: var(--kliff-border-radius-md);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all var(--kliff-transition-duration-medium) var(--kliff-transition-timing-function);
+    position: relative;
+    overflow: hidden;
+    z-index: 1; /* Ensure text is above pseudo-elements */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2), 0 0 0px var(--kliff-shadow-accent); /* Subtle base shadow */
 }
-.results-header #theme-toggle { position: static; }
-
-#theme-toggle:hover {
-    color: var(--glow-color);
-    border-color: var(--glow-color);
-    transform: rotate(15deg) scale(1.1);
+.kliff-button:hover {
+    background-color: var(--kliff-accent-secondary);
+    border-color: var(--kliff-accent-secondary);
+    color: var(--kliff-primary-bg); /* Ensure contrast */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25), 0 0 15px var(--kliff-shadow-glow);
 }
-.theme-icon { width: 22px; height: 22px; }
-
-
-/* --- Mobile Responsiveness --- */
-@media (max-width: 768px) {
-    .results-header { flex-direction: column; align-items: center; }
-    .results-header .kliff-title.small-title { margin-bottom: 10px; }
-    .results-header #search-form-results { width: 100%; }
-    #theme-toggle { top: 15px; right: 15px; width: 40px; height: 40px; }
-    .results-header #theme-toggle { margin-top: 15px; }
-    .accretion-disk { width: 300px; height: 300px; }
-    .event-horizon { width: 80px; height: 80px; }
+html.kliff-light-theme .kliff-button:hover {
+    color: #fff; /* White text for light theme button hover */
+}
+.kliff-button:active {
+    transform: translateY(0px) scale(0.98);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3), inset 0 2px 4px rgba(0,0,0,0.2);
+}
+.kliff-button.secondary-action { /* Example of a secondary button style */
+    background-color: transparent;
+    color: var(--kliff-accent-secondary);
+    border-color: var(--kliff-accent-secondary);
+}
+.kliff-button.secondary-action:hover {
+    background-color: var(--kliff-accent-secondary);
+    color: var(--kliff-primary-bg);
 }
 
-@media (max-width: 480px) {
-    .container { padding: 15px; }
-    .search-wrapper {
+/* Animated text selection color */
+::selection {
+    background-color: var(--kliff-accent-primary);
+    color: var(--kliff-primary-bg);
+    text-shadow: none;
+}
+html.kliff-light-theme ::selection {
+    color: #fff;
+}
+
+
+/* General purpose pulsing glow animation */
+.pulsing-glow-element {
+    animation: pulse-general-glow 3s infinite alternate ease-in-out;
+}
+@keyframes pulse-general-glow {
+    0% { box-shadow: 0 0 5px var(--kliff-shadow-glow), 0 0 10px var(--kliff-shadow-accent); opacity: 0.8; }
+    100% { box-shadow: 0 0 15px var(--kliff-shadow-glow), 0 0 30px var(--kliff-shadow-accent); opacity: 1; }
+}
+
+/* A subtle hover grow effect */
+.hover-grow-effect {
+    transition: transform var(--kliff-transition-duration-short) var(--kliff-transition-timing-function);
+}
+.hover-grow-effect:hover {
+    transform: scale(1.05);
+}
+
+/* Hidden by default, for JS to reveal */
+.js-reveal-on-load {
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity var(--kliff-transition-duration-long) ease-out,
+                transform var(--kliff-transition-duration-long) ease-out;
+}
+.js-reveal-on-load.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Screen reader only text */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Visual break line */
+.visual-break {
+    display: block;
+    width: 80%;
+    max-width: 400px;
+    height: 2px;
+    margin: var(--kliff-spacing-xl) auto;
+    background: linear-gradient(to right, 
+        transparent, 
+        var(--kliff-accent-primary) 20%, 
+        var(--kliff-accent-secondary) 80%, 
+        transparent
+    );
+    border-radius: 2px;
+    opacity: 0.5;
+}
+
+/* style.css - Kliff Search Engine - Expanded Edition - PART 5 (Final) */
+
+/*-----------------------------------------------------------------------------
+  10. RESPONSIVENESS & MEDIA QUERIES
+      - Adjustments for tablets, mobiles, and very large screens
+      - Font size scaling, layout changes
+-----------------------------------------------------------------------------*/
+
+/* XX-Large Desktops (e.g., > 1600px) */
+@media (min-width: 1601px) {
+    :root {
+        --kliff-font-size-base: 18px; /* Slightly larger base font */
+    }
+    .kliff-main-wrapper {
+        max-width: 1400px; /* Even wider on very large screens */
+    }
+    .search-form-control {
+        max-width: 850px; /* Wider search bar for large screens */
+    }
+    .accretion-disk-primary { width: 700px; height: 700px; }
+    .accretion-disk-secondary { width: 900px; height: 900px; }
+    .event-horizon-core { width: 180px; height: 180px; }
+    .deep-space-nebula.nebula-1 { width: 70vw; height: 80vh; }
+    .deep-space-nebula.nebula-2 { width: 80vw; height: 70vh; }
+}
+
+
+/* Large Desktops & Laptops (e.g., 1201px - 1600px) */
+@media (max-width: 1600px) and (min-width: 1201px) {
+    /* Most styles are fine from the base, minor tweaks if needed */
+    .kliff-main-wrapper {
+        /* max-width: 1100px; */ /* Already handled by base */
+    }
+    .search-form-control {
+        /* max-width: 700px; */ /* Already handled by base */
+    }
+}
+
+
+/* Tablets & Small Desktops (e.g., 993px - 1200px) */
+@media (max-width: 1200px) and (min-width: 993px) {
+    :root {
+        --kliff-font-size-base: 15px; /* Slightly smaller base */
+    }
+    .kliff-main-wrapper {
+        width: 92%;
+    }
+    .kliff-logo { font-size: clamp(2.8em, 10vw, 6em); } /* Adjust logo size */
+    .kliff-results-header .kliff-logo.small-logo { font-size: clamp(1.7em, 5vw, 2.8em); }
+    .search-form-control { max-width: 700px; }
+    .accretion-disk-primary { width: clamp(250px, 35vw, 500px); height: clamp(250px, 35vw, 500px); }
+    .accretion-disk-secondary { width: clamp(350px, 50vw, 700px); height: clamp(350px, 50vw, 700px); }
+    .event-horizon-core { width: clamp(70px, 9vw, 130px); height: clamp(70px, 9vw, 130px); }
+}
+
+
+/* Tablets - Portrait & Landscape (e.g., 769px - 992px) */
+@media (max-width: 992px) and (min-width: 769px) {
+    .kliff-main-wrapper {
+        width: 90%;
+        padding: var(--kliff-spacing-md) var(--kliff-spacing-md); /* Less horizontal padding */
+    }
+    .kliff-main-header, .kliff-results-header {
+        padding: var(--kliff-spacing-lg) 0;
+        flex-direction: column; /* Stack header items */
+        align-items: center;
+        gap: var(--kliff-spacing-md);
+    }
+    .kliff-results-header .search-form-control.results-page-form {
+        width: 100%; /* Full width search bar in header */
+        max-width: 550px;
+        margin-top: var(--kliff-spacing-sm);
+    }
+    .header-controls {
+        margin-top: var(--kliff-spacing-md); /* Space theme toggle from logo */
+    }
+    #home-wrapper .logo-container {
+        margin-bottom: var(--kliff-spacing-xl);
+    }
+    .search-form-control { max-width: 600px; }
+    .search-field { font-size: var(--kliff-font-size-large); }
+    .suggestions-container { max-height: 250px; }
+    .results-summary-bar {
         flex-direction: column;
-        border-radius: 25px;
-        background-color: transparent; /* Simpler for stacked */
-        border: none; /* Search bar itself will have border */
+        align-items: stretch; /* Stretch items full width */
+        text-align: center;
     }
-    #search-bar, #search-bar-results {
-        border: 2px solid var(--accent-color);
-        border-radius: 25px 25px 0 0; /* Top corners */
-        padding: 15px 20px;
-        margin-bottom: -2px; /* Overlap border */
-        background-color: rgba(var(--secondary-color-dark-rgb, 13, 13, 43), 0.5);
+    #results-info-statement { text-align: center; margin-bottom: var(--kliff-spacing-sm); }
+    .filter-controls-placeholder { justify-content: center; }
+    .ai-answer-box { padding: var(--kliff-spacing-md); }
+    .ai-answer-title { font-size: var(--kliff-font-size-large); }
+    .result-item { padding: var(--kliff-spacing-md); }
+    .result-item-title a { font-size: var(--kliff-font-size-large); }
+    .pagination-navigation {
+        flex-direction: column;
+        gap: var(--kliff-spacing-sm);
     }
-    html.light-mode #search-bar, html.light-mode #search-bar-results {
-        background-color: rgba(var(--secondary-color-light-rgb, 230, 230, 250), 0.7);
-    }
-    .search-button {
-        border-radius: 0 0 25px 25px; /* Bottom corners */
-        padding: 15px;
-        border: 2px solid var(--accent-color);
-        border-top: none; /* Merge with input border */
-    }
-    #suggestions-box {
-        margin-top: 0px; /* Adjust due to stacked search bar */
-        border-radius: 0 0 10px 10px;
-        max-width: calc(100% - 4px);
-    }
-    .result-item h3 a { font-size: 1.3em; }
-    .accretion-disk { width: 200px; height: 200px; }
-    .event-horizon { width: 50px; height: 50px; }
-    #pagination button { padding: 8px 12px; margin: 0 4px; font-size: 0.9em;}
-    #pagination #page-info { font-size: 1em; }
+    .page-indicator { margin: var(--kliff-spacing-xs) 0; }
 }
+
+
+/* Mobile Devices - Landscape & Large Mobiles (e.g., 577px - 768px) */
+@media (max-width: 768px) and (min-width: 577px) {
+    :root {
+        --kliff-font-size-base: 14px; /* Smaller base for mobiles */
+    }
+    .kliff-main-wrapper {
+        width: 95%; /* Use more screen width */
+        padding: var(--kliff-spacing-sm);
+    }
+    .kliff-logo { font-size: clamp(2.5em, 15vw, 5em); }
+    .kliff-results-header .kliff-logo.small-logo { font-size: clamp(1.6em, 8vw, 2.5em); }
+    .kliff-tagline { font-size: var(--kliff-font-size-medium); }
+
+    .search-input-group {
+        border-radius: var(--kliff-border-radius-lg); /* Less extreme pill shape */
+        padding: var(--kliff-spacing-xs);
+    }
+    .search-field {
+        padding: var(--kliff-spacing-md) var(--kliff-spacing-md); /* Adjust padding */
+        font-size: var(--kliff-font-size-medium);
+    }
+    .kliff-button.voice-button svg,
+    .kliff-button.search-submit-button svg {
+        width: 22px; height: 22px;
+    }
+    .kliff-button.search-submit-button {
+        padding: var(--kliff-spacing-sm) var(--kliff-spacing-md);
+    }
+    .suggestions-container {
+        border-radius: 0 0 var(--kliff-border-radius-md) var(--kliff-border-radius-md);
+    }
+    .suggestion-item { padding: var(--kliff-spacing-sm) var(--kliff-spacing-md); }
+
+    .result-item-title a { font-size: var(--kliff-font-size-medium); } /* Smaller result titles */
+    .result-item-snippet { font-size: var(--kliff-font-size-small); }
+    .result-item-url { font-size: calc(var(--kliff-font-size-small) * 0.9); }
+
+    .footer-nav ul { gap: var(--kliff-spacing-xs) var(--kliff-spacing-md); }
+    .footer-nav li a { font-size: calc(var(--kliff-font-size-small) * 0.95); }
+
+    /* Background elements scale down */
+    .accretion-disk-primary { width: clamp(200px, 50vw, 400px); height: clamp(200px, 50vw, 400px); }
+    .accretion-disk-secondary { width: clamp(300px, 70vw, 550px); height: clamp(300px, 70vw, 550px); }
+    .event-horizon-core { width: clamp(60px, 12vw, 100px); height: clamp(60px, 12vw, 100px); }
+    .relativistic-jets { width: clamp(8px, 1.5vw, 20px); }
+}
+
+
+/* Mobile Devices - Portrait (e.g., up to 576px) */
+@media (max-width: 576px) {
+    .kliff-main-header, .kliff-results-header {
+        padding: var(--kliff-spacing-md) 0; /* Tighter header padding */
+        border-bottom-width: 1px; /* Thinner border */
+    }
+    #home-wrapper .logo-container { margin-bottom: var(--kliff-spacing-lg); }
+    .kliff-logo { font-size: clamp(2.2em, 18vw, 4em); }
+    .kliff-results-header .kliff-logo.small-logo { font-size: clamp(1.5em, 10vw, 2.2em); }
+    .kliff-tagline { font-size: var(--kliff-font-size-small); letter-spacing: 1px; }
+    .header-controls { gap: var(--kliff-spacing-sm); }
+    .kliff-button.icon-button { width: 40px; height: 40px; } /* Smaller icon buttons */
+    .theme-icon-svg { width: 20px; height: 20px; }
+
+    .search-input-group {
+        flex-direction: column; /* Stack input and buttons */
+        border-radius: var(--kliff-border-radius-lg);
+        background-color: transparent; /* Simpler for stacked elements */
+        border: none; /* Each element will have its own border */
+        padding: 0;
+        box-shadow: none;
+    }
+    .search-input-group:focus-within { box-shadow: none; }
+
+    .search-field {
+        border: 2px solid var(--kliff-accent-primary);
+        border-radius: var(--kliff-border-radius-lg) var(--kliff-border-radius-lg) 0 0; /* Top corners */
+        margin-bottom: -2px; /* Overlap border with button below */
+        background-color: rgba(var(--kliff-secondary-bg-rgb), 0.7);
+        width: 100%;
+    }
+    .search-field:focus {
+        border-color: var(--kliff-accent-secondary);
+    }
+    html.kliff-light-theme .search-field {
+        background-color: rgba(var(--kliff-secondary-bg-rgb), 0.85);
+    }
+    .search-input-group .kliff-button { /* Buttons container for stacked layout */
+        display: flex;
+        width: 100%;
+    }
+    .kliff-button.voice-button {
+        flex-grow: 0; /* Don't grow */
+        border: 2px solid var(--kliff-accent-primary);
+        border-top: none;
+        border-right: none;
+        border-radius: 0 0 0 var(--kliff-border-radius-lg);
+        padding: var(--kliff-spacing-sm);
+        background-color: rgba(var(--kliff-secondary-bg-rgb), 0.7);
+    }
+    .kliff-button.search-submit-button {
+        flex-grow: 1; /* Submit takes remaining space */
+        border: 2px solid var(--kliff-accent-primary);
+        border-top: none;
+        border-radius: 0 0 var(--kliff-border-radius-lg) 0;
+        padding: var(--kliff-spacing-sm);
+        background-color: var(--kliff-accent-primary); /* Keep this filled */
+    }
+    html.kliff-light-theme .kliff-button.voice-button {
+        background-color: rgba(var(--kliff-secondary-bg-rgb), 0.85);
+    }
+
+    .suggestions-container {
+        margin-top: 1px; /* Adjust due to stacked search bar */
+        border-radius: 0 0 var(--kliff-border-radius-md) var(--kliff-border-radius-md);
+        max-width: 100%; /* Full width for suggestions */
+        left: 0; right: 0;
+        box-shadow: 0 8px 15px -3px rgba(0,0,0,0.4);
+    }
+
+    .ai-answer-box {
+        border-left-width: 0; border-right-width: 0;
+        border-radius: 0; /* Full width box */
+        margin-left: calc(-1 * var(--kliff-spacing-sm)); /* Bleed to edge */
+        margin-right: calc(-1 * var(--kliff-spacing-sm));
+        padding-left: var(--kliff-spacing-md);
+        padding-right: var(--kliff-spacing-md);
+    }
+    .result-item {
+        border-left-width: 3px; /* Thinner side border */
+        padding: var(--kliff-spacing-sm) var(--kliff-spacing-md);
+    }
+    .result-item-title a { font-size: var(--kliff-font-size-medium); }
+    .pagination-navigation {
+        justify-content: center; /* Center pagination items when stacked */
+    }
+    .kliff-button.pagination-button {
+        width: 100%; /* Full width pagination buttons */
+        max-width: 250px; /* But not too wide */
+        margin: 0 auto; /* Center if not full width */
+        font-size: var(--kliff-font-size-small);
+        padding: var(--kliff-spacing-sm) var(--kliff-spacing-md);
+    }
+    .page-indicator { width: 100%; text-align: center; }
+
+    /* Further simplify background for very small screens */
+    .accretion-disk-primary, .accretion-disk-secondary, .relativistic-jets, .deep-space-nebula {
+        transform: scale(0.8); /* Scale down complex elements */
+        opacity: 0.7;
+    }
+    .event-horizon-core { width: clamp(50px, 15vw, 80px); height: clamp(50px, 15vw, 80px); }
+    .black-hole-visual-container { perspective: 800px; }
+}
+
+
+/* Reduced Motion Preference */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+        animation-delay: 0ms !important;
+    }
+    /* Keep some essential transitions like theme toggle perhaps, but very fast */
+    body.kliff-body, html.kliff-light-theme, .glitch-effect::before, .glitch-effect::after {
+        transition-duration: 0.05s !important;
+    }
+    .kliff-tagline span { animation: none; opacity: 1; transform: none; }
+    .scanlines-effect, .static-noise-effect, .starfield-background, .deep-space-nebula, .relativistic-jets, .accretion-disk-primary, .accretion-disk-secondary {
+        animation: none !important; /* Turn off complex background animations */
+    }
+    .event-horizon-core { animation-name: pulse-event-horizon; animation-duration: 0.01ms !important;} /* Keep its basic shape */
+    .result-item::before { /* Disable shimmer */
+        display: none;
+    }
+    .kliff-button:hover, .kliff-button.icon-button:hover, .suggestion-item:hover {
+        transform: none !important; /* Disable hover transforms */
+    }
+    .kliff-button.pagination-button::before { /* Disable animated fill */
+        display:none;
+    }
+    .footer-nav li a::after { /* Disable underline animation */
+        display: none;
+    }
+     .footer-nav li a:hover {
+        text-decoration: underline; /* Simple underline for hover */
+    }
+    .kliff-main-footer::before { animation: none; } /* Static footer line */
+}
+
+/* Print Styles (Basic) */
+@media print {
+    body.kliff-body {
+        background-color: #fff !important;
+        color: #000 !important;
+        font-size: 12pt;
+    }
+    .black-hole-visual-container, .global-overlay-effects, .kliff-main-header, .search-form-control, .kliff-main-footer, #search-pagination-controls, .ai-answer-box, #theme-toggle-btn, #theme-toggle-btn-results, .voice-button {
+        display: none !important;
+    }
+    .kliff-main-wrapper, .kliff-main-content, .search-results-list, .result-item {
+        all: unset !important; /* Reset most styles for print */
+        display: block !important;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important; margin: 1cm 0 !important;
+    }
+    .result-item-title a { color: #000 !important; text-decoration: underline !important; }
+    .result-item-url { color: #333 !important; }
+    .result-item-snippet { color: #111 !important; }
+    a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 9pt; } /* Show URLs */
+    a[href^="#"] { display: none; } /* Hide internal links */
+}
+
+/*-----------------------------------------------------------------------------
+  11. EXTRA DECORATIVE ELEMENTS / MICRO-INTERACTIONS (To reach line count)
+-----------------------------------------------------------------------------*/
+
+/* Subtle text shadow animation on general text hover (use sparingly) */
+.subtle-text-anim:hover {
+    text-shadow: 0 0 1px var(--kliff-text-secondary);
+}
+
+/* Glowing border effect for specific elements on focus/hover */
+.interactive-glow-border {
+    position: relative;
+    transition: box-shadow var(--kliff-transition-duration-medium);
+}
+.interactive-glow-border:focus-within, /* For form groups */
+.interactive-glow-border:hover {
+    box-shadow: 0 0 0 2px var(--kliff-primary-bg), /* knockout effect */
+                0 0 0 4px var(--kliff-accent-secondary), /* glow border */
+                0 0 15px var(--kliff-shadow-glow); /* outer glow */
+}
+
+/* Pulsating caret for search input (experimental) */
+.search-field:focus {
+    animation: caret-pulse 1s infinite;
+}
+@keyframes caret-pulse {
+    0%, 100% { caret-color: var(--kliff-accent-secondary); }
+    50% { caret-color: var(--kliff-accent-primary); }
+}
+
+/* Add a subtle parallax effect to background elements if desired (JS required for true parallax) */
+/* This is a CSS-only approximation for the starfield for demonstration */
+.starfield-background.pseudo-parallax {
+    transition: transform 0.5s cubic-bezier(0,0,0.2,1); /* Smoother transition for JS changes */
+}
+/* JS would update --mouse-x and --mouse-y custom properties on mousemove */
+/* .starfield-background.pseudo-parallax {
+    transform: translate(calc(var(--mouse-x, 0) * -1px), calc(var(--mouse-y, 0) * -1px));
+} */
+
+
+/* Final decorative touch: Animated gradient border for key containers */
+.animated-gradient-border {
+    border: 3px solid transparent;
+    background-clip: padding-box; /* Important for border-image to work */
+    position: relative;
+}
+.animated-gradient-border::before {
+    content: '';
+    position: absolute;
+    top: -3px; left: -3px; right: -3px; bottom: -3px; /* Match border width */
+    border-radius: inherit; /* Inherit parent's border-radius */
+    background: linear-gradient(120deg, var(--kliff-accent-primary), var(--kliff-accent-secondary), var(--kliff-accent-tertiary), var(--kliff-accent-primary));
+    background-size: 300% 300%;
+    animation: gradient-border-flow 8s linear infinite;
+    z-index: -1; /* Behind content */
+}
+@keyframes gradient-border-flow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Example usage on search input group */
+/* .search-input-group {
+    border: 3px solid transparent;
+    background-clip: padding-box;
+}*/
