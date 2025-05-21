@@ -583,12 +583,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /* script.js - Kliff Search Engine - Expanded Edition - PART 2 */
-
-// (Continued from Part 1) ...
-document.addEventListener('DOMContentLoaded', () => {
-    // ... (All code from Part 1 should be above this line) ...
-
-    // --- Results Page Logic ---
     if (resultsWrapper) { // Only execute if on the results page
         // console.log("Kliff Results Module: Initializing...");
 
