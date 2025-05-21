@@ -3,48 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kliff Search</title>
+    <meta name="description" content="Kliff Search Engine - Dive into the digital abyss.">
+    <meta name="keywords" content="search, engine, kliff, information, web, internet">
+    <title>Kliff Search - Probe the Void</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Audiowide&display=swap" rel="stylesheet">
+    <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Add a favicon later -->
 </head>
-<body>
-    <div class="black-hole-container">
-        <div class="event-horizon"></div>
-        <div class="accretion-disk"></div>
-        <div class="stars"></div>
-        <div class="twinkling"></div>
+<body class="kliff-body">
+
+    <!-- Background Elements -->
+    <div class="black-hole-visual-container">
+        <div class="event-horizon-core"></div>
+        <div class="accretion-disk-primary"></div>
+        <div class="accretion-disk-secondary"></div>
+        <div class="relativistic-jets jet-top"></div>
+        <div class="relativistic-jets jet-bottom"></div>
+        <div class="starfield-background"></div>
+        <div class="deep-space-nebula nebula-1"></div>
+        <div class="deep-space-nebula nebula-2"></div>
     </div>
 
-    <div class="overlay-effects"></div> <!-- For scanlines, noise etc. -->
+    <!-- Overlay Effects -->
+    <div class="global-overlay-effects">
+        <div class="scanlines-effect"></div>
+        <div class="static-noise-effect"></div>
+        <div class="vignette-effect"></div>
+    </div>
 
-    <div class="container" id="home-container">
-        <header>
-            <h1 class="glitch kliff-title" data-text="KLIFF">KLIFF</h1>
-            <p class="tagline">Traverse the Digital Singularity...</p>
-            <button id="theme-toggle" aria-label="Toggle theme">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" class="theme-icon moon-icon">
-                    <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.75 12a.75.75 0 01.75-.75h2.25a.75.75 0 010 1.5H19.5a.75.75 0 01-.75-.75zM7.5 12a.75.75 0 01-.75.75H4.5a.75.75 0 010-1.5h2.25a.75.75 0 01.75.75zM12 18.75a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V19.5a.75.75 0 01.75-.75zM5.036 5.036A.75.75 0 015.75 4.31l1.617 1.617a.75.75 0 11-1.061 1.06L4.31 5.75a.75.75 0 01.726-.714zm12.329 1.617a.75.75 0 011.06 0l1.617-1.617a.75.75 0 111.06 1.06L18.97 6.096a.75.75 0 01-1.06 0zm1.617 12.329a.75.75 0 010 1.06l-1.617 1.617a.75.75 0 11-1.06-1.06l1.617-1.617a.75.75 0 011.06 0zm-12.329 1.617a.75.75 0 010-1.06l-1.617-1.617a.75.75 0 11-1.06 1.06l1.617 1.617a.75.75 0 011.06 0z"/>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" class="theme-icon sun-icon" style="display:none;">
-                    <path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-3.51 1.713-6.617 4.367-8.506a.75.75 0 01.819.162z" clip-rule="evenodd"/>
-                </svg>
-            </button>
+    <!-- Main Content Wrapper -->
+    <div class="kliff-main-wrapper" id="home-wrapper">
+        <header class="kliff-main-header">
+            <div class="logo-container">
+                <h1 class="kliff-logo glitch-effect" data-text-glitch="KLIFF">KLIFF</h1>
+                <p class="kliff-tagline animated-tagline"><span>D</span><span>i</span><span>v</span><span>e</span> <span>i</span><span>n</span><span>t</span><span>o</span> <span>t</span><span>h</span><span>e</span> <span>D</span><span>i</span><span>g</span><span>i</span><span>t</span><span>a</span><span>l</span> <span>A</span><span>b</span><span>y</span><span>s</span><span>s</span><span>.</span><span>.</span><span>.</span></p>
+            </div>
+            <div class="header-controls">
+                <button id="theme-toggle-btn" class="kliff-button icon-button" aria-label="Toggle color theme">
+                    <svg class="theme-icon-svg icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.75 12a.75.75 0 01.75-.75h2.25a.75.75 0 010 1.5H19.5a.75.75 0 01-.75-.75zM7.5 12a.75.75 0 01-.75.75H4.5a.75.75 0 010-1.5h2.25a.75.75 0 01.75.75zM12 18.75a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V19.5a.75.75 0 01.75-.75zM5.036 5.036a.75.75 0 015.75 4.31l1.617 1.617a.75.75 0 11-1.061 1.06L4.31 5.75a.75.75 0 01.726-.714zm12.329 1.617a.75.75 0 011.06 0l1.617-1.617a.75.75 0 111.06 1.06L18.97 6.096a.75.75 0 01-1.06 0zm1.617 12.329a.75.75 0 010 1.06l-1.617 1.617a.75.75 0 11-1.06-1.06l1.617-1.617a.75.75 0 011.06 0zm-12.329 1.617a.75.75 0 010-1.06l-1.617-1.617a.75.75 0 11-1.06 1.06l1.617 1.617a.75.75 0 011.06 0z"/></svg>
+                    <svg class="theme-icon-svg icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="display:none;"><path d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-3.51 1.713-6.617 4.367-8.506a.75.75 0 01.819.162z"/></svg>
+                </button>
+                <!-- Placeholder for future user account button -->
+                <button id="user-account-btn-placeholder" class="kliff-button icon-button" aria-label="User Account (Placeholder)" style="display: none;">
+                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 2.5a5.5 5.5 0 0 1 5.5 5.5c0 1.826-.892 3.43-2.274 4.454A8.944 8.944 0 0 1 20 19.5H4a8.944 8.944 0 0 1 4.774-7.046A5.485 5.485 0 0 1 6.5 8a5.5 5.5 0 0 1 5.5-5.5Zm0 2a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"/></svg>
+                </button>
+            </div>
         </header>
-        <main>
-            <form id="search-form" role="search">
-                <div class="search-wrapper">
-                    <input type="search" id="search-bar" name="q" placeholder="Probe the void..." autocomplete="off" aria-label="Search query" aria-controls="suggestions-box" aria-haspopup="listbox">
-                    <button type="submit" class="search-button" aria-label="Search">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M10 18a7.952 7.952 0 004.897-1.688l4.387 4.387a1 1 0 001.414-1.414l-4.387-4.387A8 8 0 1010 18zm0-14a6 6 0 110 12A6 6 0 014 12a6 6 0 016-6z"/></svg>
-                    </button>
+
+        <main class="kliff-main-content" role="main">
+            <section class="search-section">
+                <form id="kliff-search-form" class="search-form-control" role="search" aria-label="Main search">
+                    <div class="search-input-group">
+                        <input type="search" id="main-search-bar" name="query" class="search-field" placeholder="Probe the quantum foam..." autocomplete="off" aria-autocomplete="list" aria-controls="search-suggestions-listbox" aria-expanded="false" aria-haspopup="listbox">
+                        <button id="voice-search-btn" type="button" class="kliff-button voice-button" aria-label="Search by voice (experimental)">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3ZM8.5 6a3.5 3.5 0 0 1 7 0v6a3.5 3.5 0 0 1-7 0V6Zm9.502 4.003a.75.75 0 0 1 .498.697v.3a5.501 5.501 0 0 1-11 0v-.3a.75.75 0 0 1 .498-.697A.75.75 0 0 1 8 10.7v.3a4.001 4.001 0 0 0 8 0v-.3a.75.75 0 0 1 .502-.697Z M12 15.5a.75.75 0 0 1 .75.75v2.175a3.487 3.487 0 0 0 3-2.175.75.75 0 0 1 1.406.516A4.987 4.987 0 0 1 12.75 20v1.25a.75.75 0 0 1-1.5 0V20a4.987 4.987 0 0 1-4.406-3.234.75.75 0 0 1 1.406-.516 3.487 3.487 0 0 0 3 2.175V16.25a.75.75 0 0 1 .75-.75Z"/></svg>
+                        </button>
+                        <button type="submit" class="kliff-button search-submit-button" aria-label="Execute search">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19.9 21.31-5.23-5.23a7.42 7.42 0 0 01.83-3.58c0-4.14-3.36-7.5-7.5-7.5s-7.5 3.36-7.5 7.5 3.36 7.5 7.5 7.5a7.42 7.42 0 0 03.58-.83l5.23 5.23a.75.75 0 101.06-1.06ZM3.5 12.5a6 6 0 1112 0 6 6 0 01-12 0Z"/></svg>
+                        </button>
+                    </div>
+                    <div id="search-suggestions-listbox" class="suggestions-container" role="listbox" aria-label="Search suggestions">
+                        <!-- Suggestions will be injected by JavaScript -->
+                    </div>
+                </form>
+                <p id="voice-status-message" class="voice-status" aria-live="polite"></p>
+            </section>
+
+            <!-- Placeholder for potential "Tools" section -->
+            <section class="tools-section-placeholder" style="display: none;">
+                <h2>Quick Tools (Conceptual)</h2>
+                <div class="tools-grid">
+                    <div class="tool-item-placeholder">Calculator</div>
+                    <div class="tool-item-placeholder">Unit Converter</div>
+                    <div class="tool-item-placeholder">Weather</div>
+                    <div class="tool-item-placeholder">Dictionary</div>
                 </div>
-                <div id="suggestions-box" role="listbox"></div>
-            </form>
+            </section>
+
         </main>
-        <footer>
-            <p>© <span id="current-year"></span> Kliff Industries - All rights reserved... perhaps.</p>
+
+        <footer class="kliff-main-footer">
+            <nav class="footer-nav" aria-label="Footer navigation">
+                <ul>
+                    <li><a href="#about-kliff-placeholder">About Kliff (Conceptual)</a></li>
+                    <li><a href="#privacy-placeholder">Privacy Policy (Conceptual)</a></li>
+                    <li><a href="#terms-placeholder">Terms of Service (Conceptual)</a></li>
+                    <li><a href="#feedback-placeholder">Send Feedback (Conceptual)</a></li>
+                </ul>
+            </nav>
+            <div class="footer-info">
+                <p class="copyright-text">© <span id="current-year-display">2024</span> Kliff Quantum Dynamics. All realities reserved.</p>
+                <p class="disclaimer-text">This is a fictional concept interface. No actual quantum foam was probed.</p>
+            </div>
+            <div class="social-links-placeholder" style="display: none;">
+                <a href="#" aria-label="Kliff on X (Placeholder)"><!-- X icon --></a>
+                <a href="#" aria-label="Kliff on GitHub (Placeholder)"><!-- GitHub icon --></a>
+            </div>
         </footer>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
