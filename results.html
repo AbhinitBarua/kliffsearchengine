@@ -1,0 +1,402 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results - KLIFF</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-overlay"></div>
+
+    <button id="sidebar-toggle-btn" aria-label="Toggle Sidebar">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <aside id="sidebar" class="sidebar glassmorphism">
+        <div class="sidebar-header">
+            <h2 class="logo-text">KLIFF</h2>
+            <button id="sidebar-close-btn" aria-label="Close Sidebar">&times;</button>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="index.html" class="nav-link" data-feature="home"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#" class="nav-link" data-feature="ai-chatbot"><i class="fas fa-robot"></i> AI Chatbot</a></li>
+                <li><a href="#" class="nav-link" data-feature="dictionary"><i class="fas fa-book"></i> Dictionary</a></li>
+                <li><a href="#" class="nav-link" data-feature="calculator"><i class="fas fa-calculator"></i> Calculator</a></li>
+                <li><a href="#" class="nav-link" data-feature="converter"><i class="fas fa-exchange-alt"></i> Unit Converter</a></li>
+                <li><a href="#" class="nav-link" data-feature="history"><i class="fas fa-history"></i> Viewing History</a></li>
+                <hr class="sidebar-divider">
+                <li><a href="#" class="nav-link" data-feature="settings"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="#" class="nav-link" data-feature="theme-toggle"><i class="fas fa-moon"></i> <span id="theme-toggle-text">Dark Mode</span></a></li>
+                <hr class="sidebar-divider">
+                <li><a href="#" class="nav-link" data-feature="kliff-data"><i class="fas fa-database"></i> Kliff Data</a></li>
+                <li><a href="#" class="nav-link" data-feature="how-to-kliff"><i class="fas fa-question-circle"></i> How to Kliff</a></li>
+                <li><a href="#" class="nav-link" data-feature="developer"><i class="fas fa-code"></i> Developer Settings</a></li>
+                <li><a href="#" class="nav-link" data-feature="api"><i class="fas fa-network-wired"></i> API</a></li>
+                <hr class="sidebar-divider">
+                <li><a href="#" class="nav-link" data-feature="premium"><i class="fas fa-star"></i> Premium</a></li>
+                <li><a href="#" class="nav-link auth-link" data-feature="signin"><i class="fas fa-sign-in-alt"></i> Sign In</a></li>
+                <li><a href="#" class="nav-link auth-link" data-feature="signout" style="display:none;"><i class="fas fa-sign-out-alt"></i> Sign Out</a></li>
+                <hr class="sidebar-divider">
+                <li><a href="#" class="nav-link" data-feature="about"><i class="fas fa-info-circle"></i> About Kliff</a></li>
+                <li><a href="#" class="nav-link" data-feature="privacy"><i class="fas fa-user-secret"></i> Privacy Policy</a></li>
+                <li><a href="#" class="nav-link" data-feature="terms"><i class="fas fa-file-contract"></i> Terms of Service</a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <p>&copy; <span id="current-year"></span> KLIFF Inc.</p>
+        </div>
+    </aside>
+
+    <header class="results-header glassmorphism">
+        <a href="index.html" class="kliff-logo-small">KLIFF</a>
+        <form id="search-form-results" action="results.html" method="GET">
+            <div class="search-container-results">
+                <input type="text" id="search-input-results" name="query" placeholder="Search KLIFF..." aria-label="Search KLIFF">
+                <button type="button" id="mic-button-results" aria-label="Search by voice"><i class="fas fa-microphone"></i></button>
+                <button type="submit" class="search-button-results"><i class="fas fa-search"></i></button>
+            </div>
+            <div id="autocomplete-results-results" class="autocomplete-results">
+                <!-- Autocomplete suggestions -->
+            </div>
+        </form>
+        <div class="user-actions">
+            <!-- User profile/login button can go here -->
+            <button id="user-profile-btn" class="glassmorphism-btn"><i class="fas fa-user-circle"></i></button>
+        </div>
+    </header>
+
+    <main id="main-content" class="results-page-content">
+        <div class="results-layout">
+            <div class="results-main-column">
+                <div id="highlighted-answer-area" class="highlighted-answer glassmorphism" style="display:none;">
+                    <!-- Highlighted answers will appear here -->
+                    <h4><i class="fas fa-star-of-life"></i> Highlighted Answer</h4>
+                    <p id="highlighted-text">This is a highlighted direct answer to your query.</p>
+                </div>
+
+                <div id="calculator-widget-area" class="calculator-widget glassmorphism" style="display:none;">
+                    <h4><i class="fas fa-calculator"></i> KLIFF Calculator</h4>
+                    <input type="text" id="calc-display" readonly placeholder="0">
+                    <div class="calc-buttons">
+                        <button>7</button><button>8</button><button>9</button><button>/</button>
+                        <button>4</button><button>5</button><button>6</button><button>*</button>
+                        <button>1</button><button>2</button><button>3</button><button>-</button>
+                        <button>0</button><button>.</button><button id="calc-equals">=</button><button>+</button>
+                        <button id="calc-clear" class="calc-clear-btn">C</button>
+                    </div>
+                </div>
+                
+                <div id="converter-widget-area" class="converter-widget glassmorphism" style="display:none;">
+                    <h4><i class="fas fa-exchange-alt"></i> KLIFF Unit Converter</h4>
+                    <div class="converter-row">
+                        <input type="number" id="convert-input-value" placeholder="Value">
+                        <select id="convert-from-unit">
+                            <option value="km">Kilometers</option>
+                            <option value="m">Meters</option>
+                            <option value="cm">Centimeters</option>
+                            <option value="mi">Miles</option>
+                            <option value="kg">Kilograms</option>
+                            <option value="lb">Pounds</option>
+                            <option value="c">Celsius</option>
+                            <option value="f">Fahrenheit</option>
+                        </select>
+                        <span>to</span>
+                        <select id="convert-to-unit">
+                            <option value="km">Kilometers</option>
+                            <option value="m">Meters</option>
+                            <option value="cm">Centimeters</option>
+                            <option value="mi">Miles</option>
+                            <option value="kg">Kilograms</option>
+                            <option value="lb">Pounds</option>
+                            <option value="c">Celsius</option>
+                            <option value="f">Fahrenheit</option>
+                        </select>
+                    </div>
+                    <button id="convert-btn">Convert</button>
+                    <p id="convert-result">Result: </p>
+                </div>
+
+                <div id="dictionary-widget-area" class="dictionary-widget glassmorphism" style="display:none;">
+                    <h4><i class="fas fa-book"></i> KLIFF Dictionary</h4>
+                    <p><strong>Word:</strong> <span id="dict-word">Example</span></p>
+                    <p><em>Pronunciation:</em> /ɪɡˈzæmpəl/</p>
+                    <p><strong>Definition:</strong> <span id="dict-definition">A thing characteristic of its kind or illustrating a general rule.</span></p>
+                    <div id="dict-etymology" style="margin-top:10px; font-size:0.9em; opacity:0.8;">
+                        <strong>Etymology:</strong> From late Middle English...
+                    </div>
+                </div>
+
+                <div class="results-summary">
+                    <p>About <span id="results-count">1,234,567</span> results (<span id="results-time">0.42</span> seconds) for <strong id="query-display">"Your Search Query"</strong></p>
+                </div>
+
+                <div id="search-results-list">
+                    <!-- Search Result Item 1 -->
+                    <div class="search-result-item glassmorphism">
+                        <a href="#" class="result-title"><h3>Awesome Search Result Title 1 - KLIFF</h3></a>
+                        <p class="result-url">https://www.example.com/page1</p>
+                        <p class="result-snippet">This is a snippet of the search result content. It provides a brief overview of the page. Kliff helps you find the most relevant information quickly and efficiently. <span class="highlight">Search Query</span> terms might be highlighted here.</p>
+                        <div class="result-meta">
+                            <span><i class="far fa-calendar-alt"></i> Jan 1, 2024</span>
+                            <span><i class="far fa-eye"></i> 1.2K views</span>
+                            <a href="#" class="result-action"><i class="fas fa-ellipsis-h"></i> More</a>
+                        </div>
+                    </div>
+
+                    <!-- Search Result Item 2 (with image) -->
+                    <div class="search-result-item glassmorphism has-image">
+                        <img src="https://via.placeholder.com/100x75.png?text=KLIFF+Image" alt="Result Image" class="result-image">
+                        <div class="result-content">
+                            <a href="#" class="result-title"><h3>Amazing Discovery Found - KLIFF Reports</h3></a>
+                            <p class="result-url">https://www.example.com/discovery</p>
+                            <p class="result-snippet">Kliff brings you the latest on this amazing discovery. Our advanced algorithms found this page highly relevant to your <span class="highlight">Search Query</span>. Explore more insights.</p>
+                            <div class="result-meta">
+                                <span><i class="far fa-calendar-alt"></i> Feb 15, 2024</span>
+                                <span><i class="far fa-thumbs-up"></i> 98% relevant</span>
+                                <a href="#" class="result-action"><i class="fas fa-share-alt"></i> Share</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- More search results -->
+                    <div class="search-result-item glassmorphism">
+                        <a href="#" class="result-title"><h3>Understanding Complex Topic - Simplified by KLIFF</h3></a>
+                        <p class="result-url">https://www.example.com/complex-topic</p>
+                        <p class="result-snippet">KLIFF breaks down complex topics into understandable pieces. This result explains the core concepts related to your <span class="highlight">Search Query</span>, making learning easier.</p>
+                         <div class="result-meta">
+                            <span><i class="far fa-calendar-alt"></i> Mar 10, 2024</span>
+                             <span><i class="fas fa-book-open"></i> 5 min read</span>
+                            <a href="#" class="result-action"><i class="far fa-bookmark"></i> Bookmark</a>
+                        </div>
+                    </div>
+                    
+                    <div class="search-result-item glassmorphism">
+                        <a href="#" class="result-title"><h3>How KLIFF Technology Works - An Overview</h3></a>
+                        <p class="result-url">https://kliff.engine/technology-explained</p>
+                        <p class="result-snippet">Delve into the inner workings of KLIFF's search algorithms and how we deliver precise results for every <span class="highlight">Search Query</span>. Learn about our commitment to accuracy and speed.</p>
+                         <div class="result-meta">
+                            <span><i class="far fa-calendar-alt"></i> Apr 1, 2024</span>
+                             <span><i class="fas fa-cogs"></i> Technical</span>
+                            <a href="#" class="result-action"><i class="fas fa-code-branch"></i> Fork</a>
+                        </div>
+                    </div>
+
+                    <div class="search-result-item glassmorphism">
+                        <a href="#" class="result-title"><h3>Future of Search with KLIFF AI</h3></a>
+                        <p class="result-url">https://kliff.ai/future-search</p>
+                        <p class="result-snippet">Explore KLIFF's vision for the future of information retrieval, powered by cutting-edge AI. Your <span class="highlight">Search Query</span> is just the beginning of an intelligent journey.</p>
+                         <div class="result-meta">
+                            <span><i class="far fa-calendar-alt"></i> May 20, 2024</span>
+                             <span><i class="fas fa-lightbulb"></i> Insightful</span>
+                            <a href="#" class="result-action"><i class="fas fa-brain"></i> Learn More</a>
+                        </div>
+                    </div>
+                    
+                     <!-- Placeholder for 15 more results to reach line count & visual density -->
+                    <div class="search-result-item glassmorphism">
+                        <a href="#" class="result-title"><h3>KLIFF User Testimonials - What People Say</h3></a>
+                        <p class="result-url">https://kliff.reviews/testimonials</p>
+                        <p class="result-snippet">Discover why users love KLIFF. Real stories, real experiences with our search engine after their initial <span class="highlight">Search Query</span>.</p>
+                        <div class="result-meta"><span><i class="far fa-calendar-alt"></i> Jun 5, 2024</span></div>
+                    </div>
+                    <div class="search-result-item glassmorphism">
+                        <a href="#" class="result-title"><h3>Advanced Search Tips for KLIFF</h3></a>
+                        <p class="result-url">https://kliff.help/advanced-search</p>
+                        <p class="result-snippet">Master KLIFF with these advanced search operator tips to refine your <span class="highlight">Search Query</span> for even better results.</p>
+                        <div class="result-meta"><span><i class="far fa-calendar-alt"></i> Jun 10, 2024</span></div>
+                    </div>
+                    <div class="search-result-item glassmorphism has-image">
+                        <img src="https://via.placeholder.com/100x75.png?text=DataVis" alt="Data Visualization" class="result-image">
+                         <div class="result-content">
+                            <a href="#" class="result-title"><h3>KLIFF Data Visualization Tools</h3></a>
+                            <p class="result-url">https://kliff.tools/dataviz</p>
+                            <p class="result-snippet">Turn your <span class="highlight">Search Query</span> results into insightful visualizations with KLIFF's integrated tools.</p>
+                            <div class="result-meta"><span><i class="far fa-calendar-alt"></i> Jun 15, 2024</span></div>
+                        </div>
+                    </div>
+                    <div class="search-result-item glassmorphism">
+                        <a href="#" class="result-title"><h3>KLIFF for Academic Research</h3></a>
+                        <p class="result-url">https://kliff.edu/research</p>
+                        <p class="result-snippet">How KLIFF supports students and researchers in their academic <span class="highlight">Search Query</span> endeavors.</p>
+                        <div class="result-meta"><span><i class="far fa-calendar-alt"></i> Jun 20, 2024</span></div>
+                    </div>
+                    <div class="search-result-item glassmorphism">
+                        <a href="#" class="result-title"><h3>KLIFF Mobile App - Search On The Go</h3></a>
+                        <p class="result-url">https://kliff.mobile/apps</p>
+                        <p class="result-snippet">Download the KLIFF app to take the power of KLIFF's <span class="highlight">Search Query</span> capabilities wherever you go.</p>
+                        <div class="result-meta"><span><i class="far fa-calendar-alt"></i> Jun 25, 2024</span></div>
+                    </div>
+                    <div class="search-result-item glassmorphism">
+                        <a href="#" class="result-title"><h3>Privacy First: KLIFF's Commitment</h3></a>
+                        <p class="result-url">https://kliff.legal/privacy-commitment</p>
+                        <p class="result-snippet">Learn how KLIFF protects your data and privacy with every <span class="highlight">Search Query</span>.</p>
+                        <div class="result-meta"><span><i class="far fa-calendar-alt"></i> Jul 1, 2024</span></div>
+                    </div>
+                    <div class="search-result-item glassmorphism">
+                        <a href="#" class="result-title"><h3>KLIFF API Documentation for Developers</h3></a>
+                        <p class="result-url">https://kliff.dev/api-docs</p>
+                        <p class="result-snippet">Integrate KLIFF's <span class="highlight">Search Query</span> power into your applications with our robust API.</p>
+                        <div class="result-meta"><span><i class="far fa-calendar-alt"></i> Jul 5, 2024</span></div>
+                    </div>
+                    <div class="search-result-item glassmorphism has-image">
+                        <img src="https://via.placeholder.com/100x75.png?text=News" alt="News Update" class="result-image">
+                        <div class="result-content">
+                            <a href="#" class="result-title"><h3>Latest News Powered by KLIFF Search</h3></a>
+                            <p class="result-url">https://kliff.news/latest</p>
+                            <p class="result-snippet">Stay updated with the latest news, curated by KLIFF based on trending <span class="highlight">Search Query</span> patterns.</p>
+                            <div class="result-meta"><span><i class="far fa-calendar-alt"></i> Jul 10, 2024</span></div>
+                        </div>
+                    </div>
+                    <div class="search-result-item glassmorphism">
+                        <a href="#" class="result-title"><h3>KLIFF Community Forums</h3></a>
+                        <p class="result-url">https://kliff.community/forums</p>
+                        <p class="result-snippet">Join the KLIFF community to discuss features, share tips, and get help with your <span class="highlight">Search Query</span>.</p>
+                        <div class="result-meta"><span><i class="far fa-calendar-alt"></i> Jul 15, 2024</span></div>
+                    </div>
+                    <div class="search-result-item glassmorphism">
+                        <a href="#" class="result-title"><h3>Exploring KLIFF's Image Search</h3></a>
+                        <p class="result-url">https://kliff.images/how-it-works</p>
+                        <p class="result-snippet">A deep dive into KLIFF's image search capabilities. Find visuals for any <span class="highlight">Search Query</span>.</p>
+                        <div class="result-meta"><span><i class="far fa-calendar-alt"></i> Jul 20, 2024</span></div>
+                    </div>
+                     <div class="search-result-item glassmorphism">
+                        <a href="#" class="result-title"><h3>Video Search on KLIFF: A New Era</h3></a>
+                        <p class="result-url">https://kliff.videos/discover</p>
+                        <p class="result-snippet">KLIFF's video search brings multimedia content to your fingertips for any <span class="highlight">Search Query</span>.</p>
+                        <div class="result-meta"><span><i class="far fa-calendar-alt"></i> Jul 25, 2024</span></div>
+                    </div>
+                    <div class="search-result-item glassmorphism">
+                        <a href="#" class="result-title"><h3>KLIFF Shopping: Find Products Easily</h3></a>
+                        <p class="result-url">https://kliff.shop/explore</p>
+                        <p class="result-snippet">Use KLIFF to find the best deals and products related to your shopping <span class="highlight">Search Query</span>.</p>
+                        <div class="result-meta"><span><i class="far fa-calendar-alt"></i> Aug 1, 2024</span></div>
+                    </div>
+                     <div class="search-result-item glassmorphism has-image">
+                        <img src="https://via.placeholder.com/100x75.png?text=Map" alt="Map Location" class="result-image">
+                        <div class="result-content">
+                            <a href="#" class="result-title"><h3>KLIFF Maps: Navigate Your World</h3></a>
+                            <p class="result-url">https://kliff.maps/search</p>
+                            <p class="result-snippet">Find locations, directions, and local businesses with KLIFF Maps based on your <span class="highlight">Search Query</span>.</p>
+                            <div class="result-meta"><span><i class="far fa-calendar-alt"></i> Aug 5, 2024</span></div>
+                        </div>
+                    </div>
+                    <div class="search-result-item glassmorphism">
+                        <a href="#" class="result-title"><h3>KLIFF and Open Source Contributions</h3></a>
+                        <p class="result-url">https://kliff.opensource/contributions</p>
+                        <p class="result-snippet">Learn about KLIFF's involvement in the open source community and how it improves our <span class="highlight">Search Query</span> technology.</p>
+                        <div class="result-meta"><span><i class="far fa-calendar-alt"></i> Aug 10, 2024</span></div>
+                    </div>
+                    <div class="search-result-item glassmorphism">
+                        <a href="#" class="result-title"><h3>The Ethics of AI in KLIFF Search</h3></a>
+                        <p class="result-url">https://kliff.ethics/ai-principles</p>
+                        <p class="result-snippet">KLIFF's principles on ethical AI development and its impact on your <span class="highlight">Search Query</span> results.</p>
+                        <div class="result-meta"><span><i class="far fa-calendar-alt"></i> Aug 15, 2024</span></div>
+                    </div>
+                    <!-- End of 15 placeholder results -->
+
+                </div>
+
+                <nav class="pagination">
+                    <a href="#" class="page-number current">1</a>
+                    <a href="#" class="page-number">2</a>
+                    <a href="#" class="page-number">3</a>
+                    <span class="page-ellipsis">...</span>
+                    <a href="#" class="page-number">10</a>
+                    <a href="#" class="page-next">Next <i class="fas fa-chevron-right"></i></a>
+                </nav>
+            </div>
+
+            <div class="results-sidebar-column">
+                <div id="wikipedia-infobox" class="infobox glassmorphism">
+                    <h4><i class="fab fa-wikipedia-w"></i> Wikipedia: <span id="wiki-title">Search Term</span></h4>
+                    <img id="wiki-image" src="https://via.placeholder.com/280x150.png?text=Wikipedia+Image" alt="Wikipedia Image" style="width:100%; border-radius: 8px; margin-bottom:10px;">
+                    <p id="wiki-summary">A summary from Wikipedia about the search term will appear here. This content is dynamically fetched (simulated) to provide quick insights. Kliff integrates with various knowledge sources to enrich your search experience.</p>
+                    <a id="wiki-link" href="#" target="_blank" class="read-more-link">Read more on Wikipedia</a>
+                </div>
+
+                <div id="related-searches" class="infobox glassmorphism">
+                    <h4><i class="fas fa-search-plus"></i> Related Searches</h4>
+                    <ul>
+                        <li><a href="#">Alternative search term 1</a></li>
+                        <li><a href="#">Another related query</a></li>
+                        <li><a href="#">More specific search</a></li>
+                        <li><a href="#">Broader topic search</a></li>
+                        <li><a href="#">How to do X with search term</a></li>
+                    </ul>
+                </div>
+
+                <div id="kliff-news-infobox" class="infobox glassmorphism">
+                    <h4><i class="far fa-newspaper"></i> KLIFF News</h4>
+                     <div class="news-item">
+                        <a href="#"><h5>Major Tech Breakthrough by KLIFF Labs</h5></a>
+                        <p>KLIFF announces a new AI model that revolutionizes search...</p>
+                        <span>2 hours ago</span>
+                    </div>
+                     <div class="news-item">
+                        <a href="#"><h5>KLIFF Expands Data Centers for Faster Results</h5></a>
+                        <p>New eco-friendly data centers are now online...</p>
+                        <span>1 day ago</span>
+                    </div>
+                </div>
+                 <div id="image-results-preview" class="infobox glassmorphism">
+                    <h4><i class="far fa-images"></i> Image Results</h4>
+                    <div class="image-preview-grid">
+                        <img src="https://via.placeholder.com/80x80.png?text=Img1" alt="Image 1">
+                        <img src="https://via.placeholder.com/80x80.png?text=Img2" alt="Image 2">
+                        <img src="https://via.placeholder.com/80x80.png?text=Img3" alt="Image 3">
+                        <img src="https://via.placeholder.com/80x80.png?text=Img4" alt="Image 4">
+                    </div>
+                    <a href="#" class="read-more-link">View all images</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="results-footer">
+        <p>&copy; <span id="current-year-results"></span> KLIFF Inc. Advanced Search Technology.</p>
+        <div class="footer-links">
+             <a href="#" data-feature="about">About</a> |
+             <a href="#" data-feature="privacy">Privacy</a> |
+             <a href="#" data-feature="terms">Terms</a> |
+             <a href="#" data-feature="settings">Settings</a> |
+             <a href="#" data-feature="api">API</a>
+        </div>
+    </footer>
+
+    <!-- Modal Structure (Generic, same as index.html but can be separate if needed) -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div id="modal-content" class="modal-content glassmorphism">
+            <button id="modal-close-btn" class="modal-close-btn">&times;</button>
+            <h3 id="modal-title">Modal Title</h3>
+            <div id="modal-body">
+                <p>Modal content goes here.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- AI Chatbot Interface (Placeholder, same as index.html) -->
+    <div id="ai-chatbot-widget" class="ai-chatbot-widget glassmorphism" style="display: none;">
+        <div class="chatbot-header">
+            <h4>KLIFF AI Assistant</h4>
+            <button id="close-chatbot-btn">&times;</button>
+        </div>
+        <div class="chatbot-messages">
+            <div class="message bot">Hello! How can I help you today?</div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="chatbot-user-input" placeholder="Ask KLIFF AI...">
+            <button id="chatbot-send-btn"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+
+    <script src="script.js"></script>
+</body>
+</html>

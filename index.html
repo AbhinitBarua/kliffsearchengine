@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KLIFF - Search the Universe</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-overlay"></div>
+
+    <button id="sidebar-toggle-btn" aria-label="Toggle Sidebar">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <aside id="sidebar" class="sidebar glassmorphism">
+        <div class="sidebar-header">
+            <h2 class="logo-text">KLIFF</h2>
+            <button id="sidebar-close-btn" aria-label="Close Sidebar">&times;</button>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="#" class="nav-link" data-feature="home"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#" class="nav-link" data-feature="ai-chatbot"><i class="fas fa-robot"></i> AI Chatbot</a></li>
+                <li><a href="#" class="nav-link" data-feature="dictionary"><i class="fas fa-book"></i> Dictionary</a></li>
+                <li><a href="#" class="nav-link" data-feature="calculator"><i class="fas fa-calculator"></i> Calculator</a></li>
+                <li><a href="#" class="nav-link" data-feature="converter"><i class="fas fa-exchange-alt"></i> Unit Converter</a></li>
+                <li><a href="#" class="nav-link" data-feature="history"><i class="fas fa-history"></i> Viewing History</a></li>
+                <hr class="sidebar-divider">
+                <li><a href="#" class="nav-link" data-feature="settings"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="#" class="nav-link" data-feature="theme-toggle"><i class="fas fa-moon"></i> <span id="theme-toggle-text">Dark Mode</span></a></li>
+                <hr class="sidebar-divider">
+                <li><a href="#" class="nav-link" data-feature="kliff-data"><i class="fas fa-database"></i> Kliff Data</a></li>
+                <li><a href="#" class="nav-link" data-feature="how-to-kliff"><i class="fas fa-question-circle"></i> How to Kliff</a></li>
+                <li><a href="#" class="nav-link" data-feature="developer"><i class="fas fa-code"></i> Developer Settings</a></li>
+                <li><a href="#" class="nav-link" data-feature="api"><i class="fas fa-network-wired"></i> API</a></li>
+                <hr class="sidebar-divider">
+                <li><a href="#" class="nav-link" data-feature="premium"><i class="fas fa-star"></i> Premium</a></li>
+                <li><a href="#" class="nav-link auth-link" data-feature="signin"><i class="fas fa-sign-in-alt"></i> Sign In</a></li>
+                <li><a href="#" class="nav-link auth-link" data-feature="signout" style="display:none;"><i class="fas fa-sign-out-alt"></i> Sign Out</a></li>
+                <hr class="sidebar-divider">
+                <li><a href="#" class="nav-link" data-feature="about"><i class="fas fa-info-circle"></i> About Kliff</a></li>
+                <li><a href="#" class="nav-link" data-feature="privacy"><i class="fas fa-user-secret"></i> Privacy Policy</a></li>
+                <li><a href="#" class="nav-link" data-feature="terms"><i class="fas fa-file-contract"></i> Terms of Service</a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <p>&copy; <span id="current-year"></span> KLIFF Inc.</p>
+        </div>
+    </aside>
+
+    <main id="main-content">
+        <header class="landing-header">
+            <div class="logo-container">
+                <h1 class="kliff-logo-main">KLIFF</h1>
+                <p class="tagline">Unveiling the cosmos of information.</p>
+            </div>
+        </header>
+
+        <section class="search-section">
+            <form id="search-form-main" action="results.html" method="GET">
+                <div class="search-container glassmorphism">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="search-input-main" name="query" placeholder="Search with KLIFF or type a command..." aria-label="Search KLIFF">
+                    <button type="button" id="mic-button" aria-label="Search by voice"><i class="fas fa-microphone"></i></button>
+                    <button type="submit" class="search-button-main">Kliff It!</button>
+                </div>
+                <div id="autocomplete-results-main" class="autocomplete-results">
+                    <!-- Autocomplete suggestions will appear here -->
+                </div>
+            </form>
+        </section>
+
+        <section class="quick-actions">
+            <button class="quick-action-btn glassmorphism" data-feature="ai-chatbot"><i class="fas fa-robot"></i> Chat with AI</button>
+            <button class="quick-action-btn glassmorphism" data-feature="calculator"><i class="fas fa-calculator"></i> Calculator</button>
+            <button class="quick-action-btn glassmorphism" data-feature="converter"><i class="fas fa-exchange-alt"></i> Convert Units</button>
+        </section>
+
+        <footer class="landing-footer">
+            <a href="#" data-feature="about">About KLIFF</a>
+            <a href="#" data-feature="privacy">Privacy</a>
+            <a href="#" data-feature="terms">Terms</a>
+            <a href="#" data-feature="how-to-kliff">How to KLIFF</a>
+        </footer>
+    </main>
+
+    <!-- Modal Structure (Generic) -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div id="modal-content" class="modal-content glassmorphism">
+            <button id="modal-close-btn" class="modal-close-btn">&times;</button>
+            <h3 id="modal-title">Modal Title</h3>
+            <div id="modal-body">
+                <p>Modal content goes here.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Chatbot Interface (Placeholder) -->
+    <div id="ai-chatbot-widget" class="ai-chatbot-widget glassmorphism" style="display: none;">
+        <div class="chatbot-header">
+            <h4>KLIFF AI Assistant</h4>
+            <button id="close-chatbot-btn">&times;</button>
+        </div>
+        <div class="chatbot-messages">
+            <!-- Messages will appear here -->
+            <div class="message bot">Hello! How can I help you today?</div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="chatbot-user-input" placeholder="Ask KLIFF AI...">
+            <button id="chatbot-send-btn"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+
+    <script src="script.js"></script>
+</body>
+</html>
